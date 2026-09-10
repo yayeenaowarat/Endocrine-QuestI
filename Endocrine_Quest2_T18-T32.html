@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Endocrine Quest II · 1502 336 ระบบต่อมไร้ท่อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#241813; --bg:#F4EFE8; --paper:#FFFFFF;
+  --accent:#A15C00; --accent2:#7A1F3D; --soft:#F8ECDA;
+  --ok:#0F6B45; --okbg:#E6F2EB; --no:#A32118; --nobg:#FBEBE9;
+  --line:rgba(18,34,43,.14); --mute:rgba(18,34,43,.58);
+  --rail:44px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"IBM Plex Sans Thai",system-ui,sans-serif;
+  font-size:17px; line-height:1.62; -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.disp{font-family:"Bai Jamjuree","IBM Plex Sans Thai",sans-serif;font-weight:600;letter-spacing:-.01em}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 96px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:sticky;top:0;z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.bar .in{max-width:720px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.brand{font-family:"Bai Jamjuree",sans-serif;font-weight:700;font-size:15px;letter-spacing:.01em}
+.brand small{display:block;font-weight:500;font-size:12px;color:var(--mute);letter-spacing:0}
+.chips{margin-left:auto;display:flex;gap:8px}
+.chip{
+  font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;
+  background:var(--soft);color:var(--accent);white-space:nowrap
+}
+.chip.streak{background:transparent;border:1px solid var(--line);color:var(--mute)}
+.pbar{height:3px;background:var(--line)}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s ease}
+
+/* ---------- hero / axis rail ---------- */
+.hero{padding:34px 0 10px}
+.hero .kicker{font-size:14px;color:var(--mute);margin:0 0 6px}
+.hero h1{font-size:34px;line-height:1.15;margin:0 0 8px}
+.hero p.lead{margin:0 0 4px;font-size:17px;color:var(--mute);max-width:52ch}
+
+.axis{margin:26px 0 8px;position:relative;padding-left:var(--rail)}
+.axis::before{
+  content:"";position:absolute;left:15px;top:12px;bottom:12px;width:2px;
+  background:linear-gradient(var(--accent),var(--accent2));opacity:.35
+}
+.node{position:relative;padding:14px 0 14px 4px;border-bottom:1px solid var(--line)}
+.node:last-child{border-bottom:0}
+.node .dot{
+  position:absolute;left:calc(-1 * var(--rail) + 8px);top:20px;width:16px;height:16px;
+  border-radius:50%;background:var(--bg);border:2px solid var(--accent);
+}
+.node.done .dot{background:var(--accent)}
+.node.locked .dot{border-color:var(--line)}
+.node h3{margin:0;font-size:18px}
+.node .meta{font-size:13.5px;color:var(--mute)}
+.node .gland{font-size:12.5px;color:var(--accent2);font-weight:600}
+.node.locked h3,.node.locked .meta{color:var(--mute)}
+.node .go{
+  margin-top:8px;background:none;border:1px solid var(--accent);color:var(--accent);
+  padding:5px 14px;border-radius:999px;font-size:14px;font-weight:600
+}
+.node .go:hover{background:var(--accent);color:#fff}
+.node .score{font-size:13.5px;font-weight:600;color:var(--ok)}
+
+.cta{
+  display:block;width:100%;margin:22px 0 8px;padding:15px 18px;border:0;border-radius:14px;
+  background:var(--accent);color:#fff;font-size:17px;font-weight:600
+}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.cta:disabled{opacity:.4;cursor:not-allowed}
+
+.howto{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;font-size:15px;color:var(--mute)}
+.howto b{color:var(--ink)}
+.howto ul{margin:8px 0 0;padding-left:20px}
+.howto li{margin:4px 0}
+
+/* ---------- question ---------- */
+.qhead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:22px 0 12px}
+.tag{font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:6px}
+.tag.t{background:var(--accent);color:#fff}
+.tag.lv{background:var(--soft);color:var(--accent2)}
+.tag.src{border:1px solid var(--line);color:var(--mute)}
+.tag.boss{background:var(--accent2);color:#fff}
+.qtopic{font-size:13.5px;color:var(--mute);width:100%}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stem{margin:0 0 12px;font-size:16.5px;line-height:1.6}
+.lead{margin:0 0 14px;font-weight:600;font-size:17.5px;line-height:1.5}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;
+  padding:12px 13px;font-size:16.5px;line-height:1.5;transition:border-color .15s,background .15s
+}
+.opt .k{
+  flex:0 0 26px;height:26px;border-radius:7px;background:var(--bg);
+  display:grid;place-items:center;font-weight:600;font-size:14px;color:var(--mute)
+}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.right .k{background:var(--ok);color:#fff}
+.opt.chosenwrong{background:var(--nobg);border-color:var(--no)}
+.opt.chosenwrong .k{background:var(--no);color:#fff}
+.opt.dim{opacity:.42}
+
+.qfoot{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px;color:var(--mute)}
+.hint{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:14px;font-weight:600;color:var(--accent)}
+.hint:disabled{opacity:.4}
+.clock{margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* ---------- reveal ---------- */
+.reveal{margin-top:16px;border-left:3px solid var(--accent);padding:2px 0 2px 14px}
+.reveal .verdict{font-family:"Bai Jamjuree",sans-serif;font-weight:600;font-size:18px;margin:0 0 6px}
+.reveal .verdict.ok{color:var(--ok)}
+.reveal .verdict.no{color:var(--no)}
+.reveal .xp{font-size:14px;color:var(--mute);font-weight:500}
+.reveal h4{margin:14px 0 4px;font-size:15px;color:var(--accent2)}
+.reveal p{margin:0 0 8px;font-size:16px;line-height:1.62}
+.reveal .why{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.reveal .why div{font-size:15px;margin:0 0 7px;color:var(--mute)}
+.reveal .why b{color:var(--ink);font-weight:600}
+.reveal .cite{font-size:13px;color:var(--mute);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){
+  .reveal{animation:open .28s ease}
+  @keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+}
+
+/* ---------- results ---------- */
+.big{font-family:"Bai Jamjuree",sans-serif;font-size:52px;font-weight:700;line-height:1;margin:0}
+.rank{font-size:20px;font-weight:600;color:var(--accent);margin:2px 0 0}
+.badgegrid{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.badge{font-size:14px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--accent2)}
+.badge.off{background:transparent;border:1px dashed var(--line);color:var(--mute);font-weight:500}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:13.5px;color:var(--mute)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.weak{color:var(--no);font-weight:600}
+.idbox{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:22px}
+.idbox input{
+  width:100%;margin:6px 0;padding:12px 13px;font:inherit;font-size:16.5px;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:10px
+}
+.iderr{margin:4px 0 0;font-size:14px;color:var(--no);font-weight:600}
+.sendnote{font-size:14px;color:var(--mute);margin:10px 0 0}
+.me{background:var(--soft)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="in">
+    <div class="brand">Endocrine Quest II<small>1502 336 ระบบต่อมไร้ท่อ · หัวข้อ T18 – T32</small></div>
+    <div class="chips">
+      <span class="chip" id="xpChip">0 XP</span>
+      <span class="chip streak" id="stChip">ต่อเนื่อง 0</span>
+    </div>
+  </div>
+  <div class="pbar"><i id="pbar"></i></div>
+</div>
+
+<main class="wrap">
+  <!-- HOME -->
+  <section id="home">
+    <div class="hero">
+      <p class="kicker">แบบฝึกทบทวนสำหรับนิสิตแพทย์ชั้นปีที่ 3 · คณะแพทยศาสตร์ มหาวิทยาลัยมหาสารคาม</p>
+      <h1>ทบทวนก่อนสอบ MCQ ครั้งที่ 2</h1>
+      <p class="lead">30 ข้อ เรียงตามลำดับการบรรยาย เริ่มจากข้อทฤษฎีเพื่ออุ่นเครื่อง แล้วไต่ไปข้อวิเคราะห์ ทุกข้อมีคำอธิบายเฉลยทันทีที่ตอบ</p>
+    </div>
+
+    <div class="axis" id="axis"></div>
+
+    <div id="idBox" class="idbox hidden">
+      <h3 style="margin:0 0 4px;font-size:18px">ตั้งชื่อผู้เล่น</h3>
+      <p style="margin:0 0 10px;font-size:14.5px;color:var(--mute)">ใช้ชื่อสมมติได้เลย ไม่ต้องใช้ชื่อจริงหรือรหัสนิสิต ถ้าไม่อยากขึ้นกระดานก็เว้นว่างแล้วกดเริ่มได้</p>
+      <input id="nameIn" type="text" placeholder="เช่น หมีขาว หรือ ทีมไทรอยด์" autocomplete="off" maxlength="24">
+      <button class="hint" id="diceBtn" type="button" style="margin-top:6px">สุ่มชื่อให้</button>
+    </div>
+
+    <button class="cta" id="startBtn">เริ่มสเตจแรก</button>
+    <button class="cta ghost hidden" id="wrongBtn">ทบทวนเฉพาะข้อที่ตอบผิด</button>
+    <button class="cta ghost hidden" id="boardBtn" style="margin-top:8px">ดูกระดานผู้นำ</button>
+
+    <div class="howto">
+      <b>วิธีเก็บคะแนน</b>
+      <ul>
+        <li>ตอบถูกครั้งแรก 10 XP</li>
+        <li>ตอบถูกติดต่อกันครบ 3 ข้อ เพิ่มอีก 5 XP</li>
+        <li>ตอบถูกภายใน 45 วินาทีโดยไม่ใช้คำใบ้ เพิ่มอีก 2 XP</li>
+        <li>ขอคำใบ้ ตัดตัวเลือกผิดออก 2 ข้อ หัก 3 XP</li>
+      </ul>
+      <p style="margin-top:12px">ตำแหน่งตัวเลือกสลับใหม่ทุกครั้งที่เล่น ความก้าวหน้าเก็บไว้ระหว่างเปิดหน้านี้เท่านั้น ปิดแล้วเริ่มใหม่</p>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="qhead" id="qhead"></div>
+    <div class="card">
+      <p class="stem" id="stem"></p>
+      <p class="lead" id="lead"></p>
+      <div class="opts" id="opts"></div>
+      <div class="qfoot">
+        <button class="hint" id="hintBtn">คำใบ้ −3 XP</button>
+        <span class="clock" id="clock">0:00</span>
+      </div>
+      <div id="reveal" aria-live="polite"></div>
+    </div>
+    <button class="cta hidden" id="nextBtn">ข้อถัดไป</button>
+    <button class="cta ghost" id="quitBtn" style="margin-top:8px">กลับหน้าสเตจ</button>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="hidden"></section>
+
+  <!-- LEADERBOARD -->
+  <section id="board" class="hidden"></section>
+</main>
+
+<script>
+/* ============================================================
+   กระดานผู้นำ  (leaderboard)
+   วางลิงก์ Web app ที่ได้จาก Google Apps Script ระหว่างเครื่องหมายคำพูดข้างล่าง
+   ถ้าเว้นว่างไว้ เว็บจะทำงานปกติทุกอย่าง เพียงแต่ไม่ส่งคะแนนและไม่มีกระดานผู้นำ
+   ============================================================ */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwfAKuQ9cX-faotzEiywgliOSa6AUwx5qjihovIyCTwAZ7-gMnf3CUdLvEyz9cCqrg9/exec";
+const QUEST = "Endocrine Quest II";
+
+const QUESTIONS = [{"no": 1, "t": "T18", "topic": "Principle of treatment of thyroid disease", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "In addition to inhibiting thyroid peroxidase (TPO), which antithyroid drug also inhibits the peripheral conversion of T4 to T3?", "opts": ["Potassium perchlorate", "Carbimazole", "Methimazole", "Propylthiouracil", "Iodide"], "correct": "Propylthiouracil", "exp": "**Propylthiouracil (PTU)** มีกลไกสองอย่าง คือยับยั้ง **thyroid peroxidase** จึงหยุดการ oxidation, organification และ coupling ของไอโอดีนภายในต่อม และยับยั้ง **type 1 deiodinase** ที่เนื้อเยื่อส่วนปลาย จึงลดการเปลี่ยน T4 เป็น T3 ซึ่งเป็นรูปที่ออกฤทธิ์ คุณสมบัติข้อที่สองนี้เป็นเหตุผลที่เลือกใช้ PTU ในภาวะ **thyroid storm** ที่ต้องการลดฤทธิ์ของฮอร์โมนให้เร็วที่สุด ส่วนในการรักษาระยะยาวยังนิยม methimazole มากกว่าเพราะให้วันละครั้งและเสี่ยงตับวายน้อยกว่า", "reasons": {"Potassium perchlorate": "Potassium perchlorate ปิดกั้น sodium-iodide symporter ทำให้ต่อมไม่จับไอโอดีน", "Carbimazole": "Carbimazole เป็น prodrug ที่เปลี่ยนเป็น methimazole ในร่างกาย ไม่มีผลต่อการเปลี่ยน T4 เป็น T3", "Methimazole": "Methimazole ยับยั้ง TPO อย่างเดียว", "Iodide": "ไอโอดีนขนาดสูงยับยั้งการปล่อยฮอร์โมนและลดเลือดมาเลี้ยงต่อม (Wolff-Chaikoff effect)"}, "src": "ข้อสอบต้นฉบับ - Formative โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 2, "t": "T18", "topic": "Onset of action of thionamides", "level": "ประยุกต์", "orig": false, "stem": "A 30-year-old woman with newly diagnosed Graves disease is started on methimazole 20 mg daily. She returns after 10 days still symptomatic, and her free T4 remains markedly elevated. She has taken every dose and a repeat assay confirms the result.", "lead": "Which mechanism best explains this delay in response?", "opts": ["The drug requires hepatic activation before it works", "Hormone already stored in colloid is unaffected", "TSH must first be suppressed for the drug to act", "Thyroid-stimulating antibodies must be cleared first", "Absorption of methimazole is slow and erratic"], "correct": "Hormone already stored in colloid is unaffected", "exp": "Thionamide (methimazole, PTU) ยับยั้ง thyroid peroxidase จึงหยุดขั้นตอน oxidation, organification และ coupling ของ iodide คือหยุดการ **สร้างใหม่** เท่านั้น แต่ต่อมไทรอยด์มีฮอร์โมนสะสมอยู่ในคอลลอยด์ในรูป iodinated thyroglobulin มากพอสำหรับหลายสัปดาห์ ประกอบกับ T4 มีครึ่งชีวิตราว 7 วัน อาการจึงดีขึ้นช้าใน 2-6 สัปดาห์ ด้วยเหตุนี้จึงต้องให้ beta-blocker ควบคู่เพื่อคุมอาการในระยะแรก และในภาวะ thyroid storm จึงต้องเพิ่มไอโอดีนขนาดสูงเพื่อยับยั้งการ **ปล่อย** ฮอร์โมนที่สะสมไว้", "reasons": {"The drug requires hepatic activation before it works": "Methimazole ออกฤทธิ์ได้เองโดยไม่ต้องเปลี่ยนรูปที่ตับ", "TSH must first be suppressed for the drug to act": "TSH ถูกกดอยู่แล้วใน Graves disease และไม่ใช่เงื่อนไขการออกฤทธิ์ของยา", "Thyroid-stimulating antibodies must be cleared first": "ยาไม่ได้ออกฤทธิ์โดยการกำจัดแอนติบอดี ระดับ TRAb ลดลงช้าเป็นเดือนถึงปี", "Absorption of methimazole is slow and erratic": "Methimazole ดูดซึมได้เกือบสมบูรณ์และรวดเร็ว"}, "src": "สร้างใหม่ (อ้างขอบเขต T18-20; ต่อยอดจาก formative อ.อารยา)", "ref": ""}, {"no": 3, "t": "T19", "topic": "Principle of treatment of thyroid disease", "level": "ประยุกต์", "orig": true, "stem": "A 55-year-old woman on chronic levothyroxine replacement develops elevated serum TSH after starting an over-the-counter dietary supplement.", "lead": "Which supplement constituent is most likely interfering with levothyroxine absorption?", "opts": ["Coenzyme Q10", "Vitamin D3", "Omega-3 fatty acids", "Calcium carbonate", "Ascorbic acid"], "correct": "Calcium carbonate", "exp": "**Calcium carbonate** จับกับ levothyroxine ในทางเดินอาหารเกิดเป็นสารประกอบเชิงซ้อนที่ไม่ละลายและดูดซึมไม่ได้ ทำให้ชีวประสิทธิผลของยาลดลงอย่างมีนัยสำคัญ ผู้ป่วยจึงมี TSH สูงขึ้นทั้งที่กินยาขนาดเดิม สารอื่นที่รบกวนด้วยกลไกเดียวกันได้แก่ ธาตุเหล็ก อะลูมิเนียมไฮดรอกไซด์ sucralfate และ resin จับกรดน้ำดี วิธีแก้คือกิน levothyroxine ตอนท้องว่างและเว้นห่างจากสารเหล่านี้อย่างน้อย 4 ชั่วโมง", "reasons": {"Coenzyme Q10": "Coenzyme Q10 ไม่มีรายงานว่ารบกวนการดูดซึม levothyroxine", "Vitamin D3": "Vitamin D3 เองไม่จับกับ levothyroxine (แต่ผลิตภัณฑ์ที่ผสมแคลเซียมจะรบกวน)", "Omega-3 fatty acids": "Omega-3 fatty acids ไม่รบกวนการดูดซึม", "Ascorbic acid": "Ascorbic acid ทำให้ภาวะเป็นกรดมากขึ้นและกลับ **ช่วย** การดูดซึมในผู้ป่วยบางราย"}, "src": "ข้อสอบต้นฉบับ - Formative โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 4, "t": "T19", "topic": "Radioactive iodine therapy", "level": "ประยุกต์", "orig": false, "stem": "A 46-year-old woman with a toxic multinodular goitre and atrial fibrillation is counselled about definitive treatment with radioactive iodine-131. Her thyroid function is currently controlled on methimazole and propranolol.", "lead": "Which finding would be an absolute contraindication to radioiodine therapy?", "opts": ["Pregnancy or breastfeeding", "Atrial fibrillation", "Previous use of methimazole", "A large multinodular goitre", "Age over 40 years"], "correct": "Pregnancy or breastfeeding", "exp": "ไอโอดีนกัมมันตรังสีผ่านรกและถูกจับโดยต่อมไทรอยด์ของทารกตั้งแต่อายุครรภ์ราว 10-12 สัปดาห์ ทำให้ต่อมไทรอยด์ของทารกถูกทำลายอย่างถาวร และยังขับออกทางน้ำนม การตั้งครรภ์และการให้นมบุตรจึงเป็น **ข้อห้ามเด็ดขาด** ต้องตรวจการตั้งครรภ์ก่อนให้เสมอ และแนะนำให้คุมกำเนิดต่ออีก 6 เดือน ข้อควรระวังสัมพัทธ์ที่สำคัญอีกข้อคือ Graves ophthalmopathy ที่กำลังกำเริบ ซึ่งอาจแย่ลงหลังได้รับ I-131", "reasons": {"Atrial fibrillation": "Atrial fibrillation ยิ่งเป็นเหตุผลสนับสนุนการรักษาให้หายขาด", "Previous use of methimazole": "การเคยใช้ methimazole ไม่ใช่ข้อห้าม เพียงหยุดยาก่อนราว 3-7 วันเพื่อให้ต่อมจับไอโอดีนได้ดี", "A large multinodular goitre": "คอพอกขนาดใหญ่อาจต้องใช้ขนาดรังสีสูงขึ้นหรือพิจารณาผ่าตัด แต่ไม่ใช่ข้อห้ามเด็ดขาด", "Age over 40 years": "อายุมากกว่า 40 ปีเป็นข้อบ่งชี้ที่เหมาะสม ไม่ใช่ข้อห้าม"}, "src": "สร้างใหม่ (อ้างขอบเขต T18-20)", "ref": ""}, {"no": 5, "t": "T20", "topic": "Drug affecting bone metabolism", "level": "ทฤษฎี", "orig": true, "stem": "A postmenopausal woman with osteoporosis is prescribed alendronate.", "lead": "What is the primary mechanism of action?", "opts": ["Inhibition of osteoclast-mediated bone resorption", "Stimulation of osteoblast proliferation", "Activation of vitamin D receptors", "Stimulation of parathyroid hormone secretion", "Activation of estrogen receptors"], "correct": "Inhibition of osteoclast-mediated bone resorption", "exp": "Alendronate เป็นยากลุ่ม **bisphosphonate** ซึ่งมีโครงสร้างคล้าย pyrophosphate จึงจับแน่นกับผลึก hydroxyapatite ที่ผิวกระดูก เมื่อ osteoclast มาสลายกระดูกบริเวณนั้นจะดูดยาเข้าไป ยาจะยับยั้งเอนไซม์ farnesyl pyrophosphate synthase ใน mevalonate pathway ทำให้ osteoclast สูญเสีย ruffled border และเข้าสู่ apoptosis ผลสุทธิคือ **ลดการสลายกระดูก** จัดเป็นยากลุ่ม antiresorptive", "reasons": {"Stimulation of osteoblast proliferation": "การกระตุ้นการสร้างกระดูกเป็นกลไกของยากลุ่ม anabolic เช่น teriparatide", "Activation of vitamin D receptors": "การกระตุ้นตัวรับวิตามินดีเป็นกลไกของ calcitriol และอนุพันธ์", "Stimulation of parathyroid hormone secretion": "Bisphosphonate ไม่ได้กระตุ้นการหลั่ง PTH", "Activation of estrogen receptors": "การกระตุ้นตัวรับเอสโตรเจนเป็นกลไกของ raloxifene และฮอร์โมนทดแทน"}, "src": "ข้อสอบต้นฉบับ - Formative โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 6, "t": "T20", "topic": "Anabolic effect of intermittent PTH", "level": "ประยุกต์", "orig": false, "stem": "A 72-year-old woman with severe osteoporosis and two vertebral fractures despite bisphosphonate therapy is started on daily subcutaneous teriparatide. Bone mineral density improves markedly. This contrasts with a patient who has primary hyperparathyroidism, in whom chronically elevated PTH causes bone loss.", "lead": "Which mechanism best explains why intermittent PTH builds bone while continuous PTH destroys it?", "opts": ["Teriparatide is a PTH receptor antagonist", "Teriparatide binds and inhibits RANKL directly", "Teriparatide inhibits osteoclast attachment to bone matrix", "Brief daily exposure favours osteoblast activity", "Teriparatide stimulates calcitonin secretion from thyroid C cells"], "correct": "Brief daily exposure favours osteoblast activity", "exp": "PTH ออกฤทธิ์ที่ osteoblast-lineage cell ซึ่งมี PTH1R (osteoclast ไม่มีตัวรับนี้) การกระตุ้นสั้น ๆ วันละครั้งจะเพิ่มจำนวน osteoblast ยับยั้ง apoptosis ของ osteoblast และลด sclerostin จึงเกิดการสร้างกระดูกสุทธิ (anabolic window) แต่หากระดับ PTH สูงต่อเนื่อง การแสดงออกของ RANKL จะคงอยู่นานจนกระตุ้น osteoclast ให้สลายกระดูกเหนือกว่าการสร้าง teriparatide จึงเป็นยากลุ่ม **anabolic** เพียงไม่กี่ตัว ต่างจาก bisphosphonate และ denosumab ที่เป็น antiresorptive", "reasons": {"Teriparatide is a PTH receptor antagonist": "Teriparatide เป็น agonist (PTH 1-34) ไม่ใช่ antagonist", "Teriparatide binds and inhibits RANKL directly": "การจับ RANKL โดยตรงเป็นกลไกของ denosumab", "Teriparatide inhibits osteoclast attachment to bone matrix": "การรบกวนการยึดเกาะและ mevalonate pathway ของ osteoclast เป็นกลไกของ bisphosphonate", "Teriparatide stimulates calcitonin secretion from thyroid C cells": "Teriparatide ไม่ได้ออกฤทธิ์ผ่าน calcitonin"}, "src": "สร้างใหม่ (อ้างขอบเขต T18-20)", "ref": ""}, {"no": 7, "t": "T21", "topic": "Physiology of adrenal hormone", "level": "ทฤษฎี", "orig": true, "stem": "A 14-year-old girl has hirsutism and irregular menses due to congenital adrenal hyperplasia.", "lead": "Which adrenal hormone is overproduced?", "opts": ["ACTH", "Cortisol", "Aldosterone", "Epinephrine", "Androstenedione"], "correct": "Androstenedione", "exp": "ใน congenital adrenal hyperplasia เอนไซม์ในสายการสร้าง cortisol บกพร่อง (ที่พบบ่อยที่สุดคือ 21-hydroxylase) ทำให้ cortisol ต่ำ ACTH จึงถูกกระตุ้นให้สูงขึ้นและเร่งให้ต่อมหมวกไตสร้าง precursor มากขึ้น precursor ที่คั่งจะถูกผลักไปตามเส้นทางที่ยังเปิดอยู่คือสาย androgen ได้ **androstenedione** และ DHEA ซึ่งเปลี่ยนต่อเป็น testosterone ที่เนื้อเยื่อส่วนปลาย จึงเกิดขนดก สิว และประจำเดือนผิดปกติในเพศหญิง", "reasons": {"ACTH": "ACTH สูงขึ้นจริงแต่เป็นฮอร์โมนจากต่อมใต้สมอง ไม่ใช่ฮอร์โมนที่ต่อมหมวกไตสร้าง", "Cortisol": "Cortisol **ต่ำ** เพราะเอนไซม์บกพร่อง", "Aldosterone": "Aldosterone ต่ำในชนิด salt-wasting ไม่ได้สูงขึ้น", "Epinephrine": "Epinephrine สร้างที่ adrenal medulla ซึ่งไม่ได้รับผลจากความบกพร่องนี้โดยตรง"}, "src": "ข้อสอบต้นฉบับ - Formative T21-22 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 8, "t": "T21", "topic": "Metabolic actions of cortisol", "level": "ประยุกต์", "orig": true, "stem": "A 38-year-old man is given synthetic glucocorticoids for autoimmune disease.", "lead": "Which of the following best describes the mechanism by which cortisol increases blood glucose?", "opts": ["Inhibits lipolysis in adipose tissue", "Inhibits gluconeogenesis in the liver", "Stimulates insulin secretion from pancreatic beta-cells", "Increases glucose uptake in skeletal muscle and adipose tissue", "Promotes hepatic gluconeogenesis and protein catabolism in muscle"], "correct": "Promotes hepatic gluconeogenesis and protein catabolism in muscle", "exp": "Cortisol เป็นฮอร์โมนกลุ่ม **glucocorticoid** ที่ทำหน้าที่รักษาระดับน้ำตาลในภาวะอดอาหารและความเครียด กลไกหลักคือเพิ่มการแสดงออกของเอนไซม์ **gluconeogenesis** ที่ตับ (PEPCK, glucose-6-phosphatase) และสลายโปรตีนในกล้ามเนื้อเพื่อส่งกรดอะมิโนไปเป็นวัตถุดิบ ร่วมกับการกระตุ้น lipolysis ให้ได้ glycerol และลดการนำกลูโคสเข้าเซลล์กล้ามเนื้อและไขมัน ผลรวมคือน้ำตาลในเลือดสูงขึ้น จึงอธิบายภาวะ steroid-induced diabetes และกล้ามเนื้อต้นแขนต้นขาลีบในผู้ป่วย Cushing syndrome", "reasons": {"Inhibits lipolysis in adipose tissue": "Cortisol **กระตุ้น** lipolysis ไม่ใช่ยับยั้ง", "Inhibits gluconeogenesis in the liver": "Cortisol กระตุ้น gluconeogenesis ไม่ใช่ยับยั้ง", "Stimulates insulin secretion from pancreatic beta-cells": "อินซูลินสูงขึ้นเป็นผลตามจากน้ำตาลที่สูง ไม่ใช่กลไกที่ cortisol ทำให้น้ำตาลสูง", "Increases glucose uptake in skeletal muscle and adipose tissue": "Cortisol **ลด** การนำกลูโคสเข้าเซลล์กล้ามเนื้อและไขมัน"}, "src": "ข้อสอบต้นฉบับ - Formative T21-22 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 9, "t": "T22", "topic": "Physiology of catecholamine hormones", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which of the following directly stimulates adrenal medulla chromaffin cells?", "opts": ["CRH", "ACTH", "Parasympathetic cholinergic fibers", "Sympathetic preganglionic neurons releasing acetylcholine", "Sympathetic postganglionic neurons releasing norepinephrine"], "correct": "Sympathetic preganglionic neurons releasing acetylcholine", "exp": "Chromaffin cell ของ adrenal medulla มีต้นกำเนิดจาก neural crest เช่นเดียวกับ postganglionic sympathetic neuron จึงเปรียบได้ว่าเป็น \"postganglionic neuron ที่ดัดแปลงเป็นเซลล์ต่อมไร้ท่อ\" ต่อมหมวกไตส่วนในจึงถูกควบคุมโดย **sympathetic preganglionic fiber ที่หลั่ง acetylcholine** โดยตรง (ผ่าน greater splanchnic nerve) ไปกระตุ้น nicotinic receptor ทำให้เกิด depolarization แคลเซียมเข้าเซลล์ และหลั่ง catecholamine เข้ากระแสเลือด นี่คือเหตุผลที่การตอบสนองแบบ fight-or-flight เกิดได้ภายในไม่กี่วินาที", "reasons": {"CRH": "CRH ออกฤทธิ์ที่ corticotroph ของต่อมใต้สมองส่วนหน้า", "ACTH": "ACTH ควบคุม adrenal cortex ไม่ใช่ medulla (แต่ cortisol จากคอร์เทกซ์ช่วยเหนี่ยวนำเอนไซม์ PNMT)", "Parasympathetic cholinergic fibers": "ระบบพาราซิมพาเทติกไม่ได้เลี้ยง adrenal medulla", "Sympathetic postganglionic neurons releasing norepinephrine": "Adrenal medulla รับสัญญาณจากใยประสาท preganglionic โดยไม่มี synapse ของ postganglionic คั่น"}, "src": "ข้อสอบต้นฉบับ - Formative T21-22 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 10, "t": "T22", "topic": "Renin-angiotensin-aldosterone system", "level": "ประยุกต์", "orig": true, "stem": "", "lead": "What would be an expected outcome of 11-deoxycorticosterone-induced hypervolemia and hypertension on the renin-angiotensin-aldosterone system?   (Plasma renin / Plasma angiotensin II / Plasma aldosterone)", "opts": ["Increase / Increase / Increase", "Decrease / Decrease / Decrease", "Increase / Decrease / Decrease", "Decrease / Increase / Decrease", "Decrease / Decrease / Increase"], "correct": "Decrease / Decrease / Decrease", "exp": "11-deoxycorticosterone (DOC) มีฤทธิ์ **mineralocorticoid** จึงเพิ่มการดูดกลับโซเดียมและน้ำที่ท่อไตส่วนปลาย ทำให้ปริมาตรเลือดเพิ่มและความดันสูงขึ้น ความดันที่สูงและปริมาตรที่มากขึ้นจะยับยั้งการหลั่ง **renin** จาก juxtaglomerular cell ผ่านทั้ง baroreceptor ที่ afferent arteriole และสัญญาณโซเดียมที่ macula densa เมื่อ renin ลดลง **angiotensin II** จึงลดลงตาม และ **aldosterone** ที่ถูกขับเคลื่อนโดย angiotensin II เป็นหลักก็ลดลงด้วย จึงได้รูปแบบ ลด-ลด-ลด นี่คือหลักการเดียวกับที่ทำให้ผู้ป่วย primary aldosteronism มี renin ถูกกด", "reasons": {"Increase / Increase / Increase": "ปริมาตรที่เพิ่มขึ้นต้องกด ไม่ใช่กระตุ้น RAAS", "Increase / Decrease / Decrease": "Renin ที่สูงขึ้นจะทำให้ angiotensin II และ aldosterone สูงตาม ไม่ใช่ลดลง", "Decrease / Increase / Decrease": "Angiotensin II ไม่สามารถสูงขึ้นได้ในขณะที่ renin ถูกกด", "Decrease / Decrease / Increase": "Aldosterone ถูกควบคุมโดย angiotensin II เป็นหลัก จึงลดลงตามไปด้วย"}, "src": "ข้อสอบต้นฉบับ - Formative T21-22 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 11, "t": "T23", "topic": "Congenital adrenal hyperplasia", "level": "ประยุกต์", "orig": false, "stem": "A 6-year-old girl has clitoromegaly, pubic hair and advanced bone age. Blood pressure is 138/88 mmHg (above the 99th percentile) and serum potassium is 3.1 mmol/L. Laboratory studies show elevated serum androstenedione, markedly elevated 11-deoxycortisol and 11-deoxycorticosterone, low cortisol, and elevated ACTH. Plasma renin activity is suppressed.", "lead": "Deficiency of which enzyme best explains these findings?", "opts": ["Aromatase", "3-beta-hydroxysteroid dehydrogenase", "11-beta-hydroxylase", "21-hydroxylase", "17-alpha-hydroxylase"], "correct": "11-beta-hydroxylase", "exp": "11-beta-hydroxylase deficiency คิดเป็นราวร้อยละ 5-8 ของ CAH เอนไซม์นี้เปลี่ยน 11-deoxycortisol เป็น cortisol และ 11-deoxycorticosterone (DOC) เป็น corticosterone เมื่อบกพร่อง cortisol จะต่ำ ACTH จึงสูงและกระตุ้นให้สร้าง precursor คั่งมาก DOC ที่คั่งมี **ฤทธิ์ mineralocorticoid แรง** จึงเกิดความดันสูง โพแทสเซียมต่ำ และ renin ถูกกด ขณะที่ precursor ส่วนที่ไหลไปทาง androgen ทำให้เกิด virilization จุดแยกสำคัญคือ **CAH ที่มีความดันสูง** ต่างจาก 21-hydroxylase deficiency ที่เป็น salt wasting และความดันต่ำ", "reasons": {"Aromatase": "Aromatase deficiency ทำให้ virilization ได้แต่ไม่ทำให้ความดันสูงและ 11-deoxycortisol ไม่คั่ง", "3-beta-hydroxysteroid dehydrogenase": "3-beta-HSD deficiency ทำให้ขาดฮอร์โมนทุกสาย มี DHEA คั่ง และเกิด salt wasting", "21-hydroxylase": "21-hydroxylase deficiency มี 17-OHP คั่ง เกิด salt wasting ความดันต่ำ และ renin สูง", "17-alpha-hydroxylase": "17-alpha-hydroxylase deficiency ทำให้ความดันสูงเช่นกัน แต่จะ **ขาด** androgen ผู้ป่วยจึงไม่มี virilization และไม่มีพัฒนาการทางเพศ"}, "src": "สร้างใหม่ (อ้างขอบเขต T23-24)", "ref": ""}, {"no": 12, "t": "T23", "topic": "Differential diagnosis of Cushing syndrome", "level": "ประยุกต์", "orig": false, "stem": "A 47-year-old woman has central obesity, purple abdominal striae, proximal muscle weakness and new-onset diabetes. Late-night salivary cortisol is elevated and cortisol is not suppressed by low-dose dexamethasone. Plasma ACTH is 4 pg/mL (low). CT of the abdomen shows a 3 cm right adrenal nodule with atrophy of the contralateral adrenal gland. She denies taking any medication, and a screen for synthetic glucocorticoids is negative.", "lead": "Which is the most likely cause of her Cushing syndrome?", "opts": ["A cortisol-secreting adrenocortical adenoma", "Ectopic ACTH secretion from a small cell lung carcinoma", "Exogenous glucocorticoid administration", "Primary pigmented nodular adrenocortical disease", "Cushing disease from a pituitary corticotroph adenoma"], "correct": "A cortisol-secreting adrenocortical adenoma", "exp": "ขั้นแรกต้องแยกว่าเป็น ACTH-dependent หรือ ACTH-independent ผู้ป่วยรายนี้ **ACTH ถูกกดต่ำ** แสดงว่า cortisol มาจากต่อมหมวกไตเองโดยไม่ผ่าน ACTH เมื่อรวมกับภาพ CT ที่เห็นก้อนข้างเดียวและต่อมหมวกไตอีกข้าง **ฝ่อ** (เพราะไม่มี ACTH มาเลี้ยง) จึงเข้าได้กับ cortisol-secreting adrenal adenoma อย่างชัดเจน การรักษาคือผ่าตัดต่อมหมวกไตข้างนั้น และต้องให้ glucocorticoid ทดแทนหลังผ่าตัดจนกว่าแกน HPA จะฟื้นตัว ซึ่งอาจใช้เวลาหลายเดือน", "reasons": {"Ectopic ACTH secretion from a small cell lung carcinoma": "Ectopic ACTH มี ACTH สูงมาก มักมีโพแทสเซียมต่ำรุนแรงและผิวคล้ำ", "Exogenous glucocorticoid administration": "การได้ยาสเตียรอยด์จะกด ACTH เช่นกัน แต่ต่อมหมวกไต **ฝ่อทั้งสองข้าง** และไม่มีก้อน อีกทั้งผลตรวจหายาสังเคราะห์เป็นลบ", "Primary pigmented nodular adrenocortical disease": "PPNAD ทำให้ต่อมหมวกไตมีปุ่มสีเข้มเล็ก ๆ **หลายปุ่มทั้งสองข้าง** พบในคนอายุน้อยและกลุ่มอาการ Carney complex", "Cushing disease from a pituitary corticotroph adenoma": "Cushing disease เป็น ACTH-dependent จึงมี ACTH ปกติหรือสูง และต่อมหมวกไตโตทั้งสองข้าง"}, "src": "สร้างใหม่ (อ้างขอบเขต T23-24)", "ref": ""}, {"no": 13, "t": "T24", "topic": "Primary versus secondary adrenal insufficiency", "level": "ประยุกต์", "orig": false, "stem": "A 60-year-old man who has taken prednisolone 10 mg daily for 2 years for polymyalgia rheumatica stops the drug abruptly. Two weeks later he presents with weakness, nausea and postural dizziness. Serum sodium is 128 mmol/L, but serum potassium is 4.2 mmol/L (normal) and there is no hyperpigmentation. Morning cortisol is 2.4 mcg/dL and plasma ACTH is low.", "lead": "Which mechanism best explains why his serum potassium is normal?", "opts": ["Prednisolone has intrinsic potassium-lowering activity", "Compensatory potassium loss through the gastrointestinal tract", "Renal tubular potassium secretion is independent of hormonal control", "Residual cortisol production is sufficient to maintain potassium balance", "Aldosterone is regulated by renin and potassium, not ACTH"], "correct": "Aldosterone is regulated by renin and potassium, not ACTH", "exp": "ใน **secondary adrenal insufficiency** จากการหยุดสเตียรอยด์ ปัญหาคือการขาด ACTH ซึ่งควบคุมเฉพาะ zona fasciculata และ reticularis ส่วน zona glomerulosa ที่สร้าง aldosterone ถูกควบคุมหลักโดย angiotensin II และระดับโพแทสเซียม จึงยังทำงานได้ตามปกติ ผลคือ **โพแทสเซียมปกติและไม่มีภาวะขาดน้ำรุนแรง** ส่วนโซเดียมยังต่ำได้เพราะการขาด cortisol ทำให้ ADH ไม่ถูกยับยั้ง (SIADH-like) และ ACTH ที่ต่ำยังอธิบายว่าเหตุใดจึง **ไม่มีผิวคล้ำ** ต่างจาก primary adrenal insufficiency ที่ ACTH สูง มีทั้งผิวคล้ำและโพแทสเซียมสูง", "reasons": {"Prednisolone has intrinsic potassium-lowering activity": "Prednisolone มีฤทธิ์ mineralocorticoid อ่อน ๆ แต่หยุดยาไปแล้ว 2 สัปดาห์", "Compensatory potassium loss through the gastrointestinal tract": "ไม่มีการสูญเสียทางเดินอาหารเรื้อรังในผู้ป่วยรายนี้", "Renal tubular potassium secretion is independent of hormonal control": "การขับโพแทสเซียมที่ท่อไตส่วนปลายขึ้นกับ aldosterone อย่างมาก", "Residual cortisol production is sufficient to maintain potassium balance": "Cortisol ของผู้ป่วยต่ำมาก (2.4 mcg/dL) และ cortisol ไม่ใช่ตัวควบคุมหลักของสมดุลโพแทสเซียม"}, "src": "สร้างใหม่ (อ้างขอบเขต T23-24)", "ref": ""}, {"no": 14, "t": "T24", "topic": "Tumours of the adrenal medulla", "level": "ประยุกต์", "orig": false, "stem": "A 3-year-old boy is brought in with abdominal distension and irritability. Examination shows a firm irregular abdominal mass that crosses the midline, periorbital ecchymoses, and rapid dancing eye movements with myoclonic jerks. Urinary homovanillic acid and vanillylmandelic acid are markedly elevated. Imaging shows a calcified suprarenal mass encasing the aorta, and bone marrow examination shows small round blue cells forming rosettes.", "lead": "Which is the most likely diagnosis?", "opts": ["Wilms tumour", "Neuroblastoma", "Pheochromocytoma", "Adrenocortical carcinoma", "Ganglioneuroma"], "correct": "Neuroblastoma", "exp": "Neuroblastoma เป็นเนื้องอกแข็งนอกกะโหลกที่พบบ่อยที่สุดในเด็กเล็ก เกิดจาก neural crest–derived sympathetic precursor cell มักอยู่ที่ต่อมหมวกไต ลักษณะจำเพาะได้แก่ ก้อน **ข้ามแนวกลางลำตัวและมีหินปูน** (ต่างจาก Wilms tumour ที่ดันไตและไม่ข้ามแนวกลาง) มี catecholamine metabolite (HVA, VMA) ในปัสสาวะสูง จุลพยาธิวิทยาเป็น small round blue cell ที่เรียงเป็น Homer-Wright rosette และมีกลุ่มอาการร่วมที่จำเพาะคือ **opsoclonus-myoclonus** และ periorbital ecchymosis จากการกระจายไปกระดูกเบ้าตา การขยายจำนวนของยีน MYCN บ่งพยากรณ์โรคที่เลว", "reasons": {"Wilms tumour": "Wilms tumour เกิดจากไต ดันโครงสร้างและมักไม่ข้ามแนวกลาง ไม่มี catecholamine metabolite สูง", "Pheochromocytoma": "Pheochromocytoma พบในผู้ใหญ่เป็นหลัก มาด้วยความดันสูงเป็นพัก ๆ ใจสั่น เหงื่อแตก ไม่มี rosette", "Adrenocortical carcinoma": "Adrenocortical carcinoma ทำให้เกิด virilization หรือ Cushing syndrome และไม่ทำให้ catecholamine metabolite สูง", "Ganglioneuroma": "Ganglioneuroma เป็นเนื้องอกไม่ร้ายที่แยกชนิดสมบูรณ์แล้ว ไม่มีการกระจายไปไขกระดูก"}, "src": "สร้างใหม่ (อ้างขอบเขต T23-24)", "ref": ""}, {"no": 15, "t": "T25", "topic": "Treatment of adrenal disease", "level": "ทฤษฎี", "orig": true, "stem": "A patient has been taking prednisone continuously for several months.", "lead": "Which is the most important reason that the drug should not be stopped abruptly?", "opts": ["Risk of acute hypertension", "Risk of adrenal insufficiency", "Risk of severe hyperglycemia", "Risk of thyroid storm", "Risk of acute renal failure"], "correct": "Risk of adrenal insufficiency", "exp": "การได้รับ glucocorticoid ขนาดสูงต่อเนื่องเป็นเวลานานจะกดแกน **hypothalamic-pituitary-adrenal (HPA)** ผ่าน negative feedback ทำให้ CRH และ ACTH ลดลงจนต่อมหมวกไตฝ่อ เมื่อหยุดยากะทันหัน ร่างกายจึงไม่สามารถสร้าง cortisol เองได้ทันที เกิด **acute adrenal insufficiency** คือ อ่อนเพลีย คลื่นไส้ ความดันต่ำ น้ำตาลต่ำ และช็อกได้ ดังนั้นจึงต้องค่อย ๆ ลดขนาดยาลง (taper) เพื่อให้แกน HPA ฟื้นตัว ซึ่งอาจใช้เวลาหลายเดือน", "reasons": {"Risk of acute hypertension": "การหยุดสเตียรอยด์ทำให้ความดัน **ต่ำ** ไม่ใช่สูง", "Risk of severe hyperglycemia": "น้ำตาลในเลือดจะ **ลดลง** เมื่อหยุดสเตียรอยด์", "Risk of thyroid storm": "Thyroid storm ไม่เกี่ยวข้องกับการหยุด glucocorticoid", "Risk of acute renal failure": "ไตวายเฉียบพลันไม่ใช่ผลโดยตรงของการหยุดยา (อาจตามมาภายหลังหากเกิดช็อก)"}, "src": "ข้อสอบต้นฉบับ - Formative T25 โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 16, "t": "T25", "topic": "Mineralocorticoid receptor antagonists", "level": "ประยุกต์", "orig": false, "stem": "A 51-year-old man with bilateral adrenal hyperplasia causing primary aldosteronism has been taking spironolactone 100 mg daily for 8 months. His blood pressure and potassium are now well controlled, but he has developed painful bilateral gynaecomastia and erectile dysfunction and wishes to change treatment.", "lead": "Which drug acts on the same receptor but is least likely to cause these adverse effects?", "opts": ["Amiloride", "Metyrapone", "Eplerenone", "Hydrochlorothiazide", "Ketoconazole"], "correct": "Eplerenone", "exp": "Spironolactone เป็น mineralocorticoid receptor antagonist ที่มีโครงสร้าง steroid ซึ่งจับกับ androgen receptor และ progesterone receptor ด้วย จึงทำให้เกิด gynaecomastia อวัยวะเพศไม่แข็งตัว และประจำเดือนผิดปกติ Eplerenone เป็น MR antagonist รุ่นหลังที่ **จำเพาะต่อ mineralocorticoid receptor สูงกว่ามาก** ผลข้างเคียงด้านฮอร์โมนเพศจึงน้อยกว่าอย่างชัดเจน ข้อแลกเปลี่ยนคือมีความแรงในการต้าน MR ต่ำกว่า จึงมักต้องให้วันละสองครั้งและอาจต้องใช้ขนาดสูงกว่า", "reasons": {"Amiloride": "Amiloride ปิดกั้น epithelial sodium channel โดยตรง จึงช่วยเรื่องโพแทสเซียมได้แต่ **ไม่ได้ออกฤทธิ์ที่ตัวรับเดียวกัน** ตามที่โจทย์ถาม", "Metyrapone": "Metyrapone ยับยั้ง 11-beta-hydroxylase ใช้ลด cortisol ใน Cushing syndrome", "Hydrochlorothiazide": "Hydrochlorothiazide ออกฤทธิ์ที่ Na-Cl cotransporter และจะทำให้โพแทสเซียมยิ่งต่ำ", "Ketoconazole": "Ketoconazole ยับยั้งเอนไซม์ steroidogenesis หลายตัว และเองก็ทำให้เกิด gynaecomastia"}, "src": "สร้างใหม่ (อ้างขอบเขต T25)", "ref": ""}, {"no": 17, "t": "T26", "topic": "Pancreatic hormonal response to a meal", "level": "ประยุกต์", "orig": true, "stem": "A 45-year-old man consumes a large meal. One hour after the meal, his plasma glucose level is elevated.", "lead": "Which of the following best describes the pancreatic hormonal response?", "opts": ["Increased insulin, decreased glucagon -> increased glucose uptake and glycogen synthesis", "Decreased insulin, increased glucagon -> increased glycogenolysis", "Increased insulin, increased glucagon -> increased hepatic glucose production", "Decreased insulin, decreased glucagon -> increased lipolysis", "Increased somatostatin -> increased insulin and glucagon secretion"], "correct": "Increased insulin, decreased glucagon -> increased glucose uptake and glycogen synthesis", "exp": "หลังอาหาร ระดับน้ำตาลที่สูงขึ้นกระตุ้น **beta cell ให้หลั่ง insulin** และยับยั้ง **alpha cell ไม่ให้หลั่ง glucagon** (ทั้งจากผลของน้ำตาลโดยตรงและจาก insulin ที่หลั่งออกมาแบบ paracrine) อัตราส่วน insulin ต่อ glucagon ที่สูงขึ้นนี้เป็นสัญญาณสู่ภาวะ **anabolic** คือเพิ่มการนำกลูโคสเข้ากล้ามเนื้อและไขมันผ่าน GLUT4 กระตุ้น glycogen synthase ที่ตับและกล้ามเนื้อ กระตุ้นการสร้างไขมันและโปรตีน พร้อมกับยับยั้ง glycogenolysis, gluconeogenesis และ lipolysis", "reasons": {"Decreased insulin, increased glucagon -> increased glycogenolysis": "เป็นรูปแบบของภาวะอดอาหาร ไม่ใช่หลังอาหาร", "Increased insulin, increased glucagon -> increased hepatic glucose production": "Glucagon ถูกกดหลังอาหาร และการสร้างกลูโคสที่ตับต้องลดลง", "Decreased insulin, decreased glucagon -> increased lipolysis": "เป็นรูปแบบของการอดอาหารเป็นเวลานาน", "Increased somatostatin -> increased insulin and glucagon secretion": "Somatostatin **ยับยั้ง** ทั้ง insulin และ glucagon ไม่ใช่กระตุ้น"}, "src": "ข้อสอบต้นฉบับ - Formative question (pancreatic hormone and others)", "ref": ""}, {"no": 18, "t": "T26", "topic": "The incretin effect", "level": "ทฤษฎี", "orig": false, "stem": "", "lead": "The term 'incretin effect' refers to which observation?", "opts": ["Insulin secretion is pulsatile throughout the day", "Glucagon secretion rises after a protein-rich meal", "Gastric emptying accelerates after a fat-rich meal", "Insulin undergoes substantial first-pass extraction by the liver", "Insulin secretion is greater after oral glucose than after intravenous glucose producing the same plasma glucose"], "correct": "Insulin secretion is greater after oral glucose than after intravenous glucose producing the same plasma glucose", "exp": "**Incretin effect** คือปรากฏการณ์ที่กลูโคสทางปากกระตุ้นการหลั่งอินซูลินได้มากกว่ากลูโคสทางหลอดเลือดดำที่ทำให้ระดับน้ำตาลในเลือดเท่ากัน อธิบายราวร้อยละ 50-70 ของการหลั่งอินซูลินหลังอาหาร เกิดจากสารอาหารในลำไส้กระตุ้น **L cell ให้หลั่ง GLP-1** และ **K cell ให้หลั่ง GIP** ซึ่งเสริมการหลั่งอินซูลิน **เฉพาะเมื่อระดับน้ำตาลสูง (glucose-dependent)** จึงไม่ทำให้น้ำตาลต่ำ GLP-1 ยังกด glucagon ชะลอการบีบตัวของกระเพาะ และลดความอยากอาหาร กลไกนี้เป็นพื้นฐานของยากลุ่ม GLP-1 receptor agonist และ DPP-4 inhibitor", "reasons": {"Insulin secretion is pulsatile throughout the day": "การหลั่งแบบเป็นจังหวะเป็นคุณสมบัติทั่วไปของอินซูลิน ไม่ใช่นิยามของ incretin effect", "Glucagon secretion rises after a protein-rich meal": "กรดอะมิโนกระตุ้น glucagon ได้จริง แต่ไม่เกี่ยวกับนิยามนี้", "Gastric emptying accelerates after a fat-rich meal": "ไขมันชะลอ ไม่ใช่เร่ง การบีบตัวของกระเพาะ", "Insulin undergoes substantial first-pass extraction by the liver": "การสกัดที่ตับครั้งแรกจะทำให้อินซูลินในเลือดส่วนปลาย **ต่ำลง** เมื่อรับทางปาก จึงตรงข้ามกับปรากฏการณ์นี้"}, "src": "สร้างใหม่ (T26; ข้อต้นฉบับของหัวข้อนี้อยู่ในไฟล์ Formative question)", "ref": ""}, {"no": 19, "t": "T27", "topic": "Adipose tissue peptide hormones", "level": "ประยุกต์", "orig": true, "stem": "A 35-year-old woman loses 15 kg after a strict calorie-restricted diet. Three months later, she reports increased hunger and difficulty maintaining her weight.", "lead": "Which hormonal change most likely contributes to her symptoms?", "opts": ["Increased leptin secretion", "Decreased leptin secretion", "Increased adiponectin resistance", "Increased glucagon secretion from adipocytes", "Increased insulin sensitivity of adipocytes"], "correct": "Decreased leptin secretion", "exp": "**Leptin** หลั่งจากเซลล์ไขมันในสัดส่วนที่แปรตามมวลไขมันของร่างกาย ทำหน้าที่รายงานปริมาณพลังงานสำรองไปยัง **arcuate nucleus** ของ hypothalamus โดยยับยั้ง NPY/AgRP neuron (กระตุ้นความหิว) และกระตุ้น POMC neuron (ทำให้อิ่ม) เมื่อมวลไขมันลดลงจากการจำกัดพลังงาน leptin จึงลดลง สมองตีความว่าพลังงานสำรองพร่อง จึงเพิ่มความหิวและลดการใช้พลังงานขณะพัก กลไกนี้เป็นคำอธิบายทางสรีรวิทยาที่สำคัญว่าเหตุใดการคงน้ำหนักหลังลดจึงทำได้ยาก", "reasons": {"Increased leptin secretion": "Leptin ลดลงตามมวลไขมันที่หายไป ไม่ได้เพิ่มขึ้น", "Increased adiponectin resistance": "Adiponectin มักเพิ่มขึ้นเมื่อน้ำหนักลด และไม่ได้ควบคุมความหิวเป็นหลัก", "Increased glucagon secretion from adipocytes": "เซลล์ไขมันไม่ได้สร้าง glucagon", "Increased insulin sensitivity of adipocytes": "ความไวต่ออินซูลินที่ดีขึ้นเป็นผลดี ไม่ใช่สาเหตุของความหิวที่เพิ่มขึ้น"}, "src": "ข้อสอบต้นฉบับ - Formative question (pancreatic hormone and others)", "ref": ""}, {"no": 20, "t": "T27", "topic": "Adipokines", "level": "ประยุกต์", "orig": false, "stem": "A 48-year-old man with a waist circumference of 108 cm has fasting hyperinsulinaemia, high triglycerides and low HDL cholesterol. A research panel of adipose-derived hormones shows that one particular adipokine is markedly REDUCED compared with lean controls, and its concentration correlates inversely with insulin resistance. This hormone acts through AMP-activated protein kinase to increase fatty acid oxidation in muscle and reduce hepatic glucose output.", "lead": "Which adipokine is most likely reduced?", "opts": ["Leptin", "Resistin", "Ghrelin", "Tumour necrosis factor-alpha", "Adiponectin"], "correct": "Adiponectin", "exp": "Adiponectin เป็นเพียงหนึ่งในไม่กี่ adipokine ที่ **ลดลง** เมื่อมีไขมันช่องท้องมาก แม้จะสร้างจากเซลล์ไขมันก็ตาม ออกฤทธิ์ผ่าน AdipoR1/AdipoR2 กระตุ้น AMPK และ PPAR-alpha เพิ่มการเผาผลาญกรดไขมันในกล้ามเนื้อ ลดการสร้างกลูโคสที่ตับ และมีฤทธิ์ต้านการอักเสบและต้านหลอดเลือดแข็ง ระดับที่ต่ำจึงสัมพันธ์กับภาวะดื้ออินซูลินและ metabolic syndrome ที่น่าสนใจคือยา thiazolidinedione ซึ่งกระตุ้น PPAR-gamma จะ **เพิ่ม** adiponectin ซึ่งเป็นส่วนหนึ่งของกลไกที่ทำให้ยาช่วยเพิ่มความไวต่ออินซูลิน", "reasons": {"Leptin": "Leptin จะ **เพิ่ม** ขึ้นตามมวลไขมัน โดยเกิดภาวะ leptin resistance", "Resistin": "Resistin เพิ่มขึ้นในภาวะอ้วนและส่งเสริมภาวะดื้ออินซูลิน", "Ghrelin": "Ghrelin สร้างจากกระเพาะอาหารเป็นหลัก ไม่ใช่เซลล์ไขมัน และมักลดลงในภาวะอ้วนด้วยกลไกอื่น", "Tumour necrosis factor-alpha": "TNF-alpha เพิ่มขึ้นในภาวะอ้วนและรบกวน insulin signalling"}, "src": "ต่อยอดจาก formative (pancreatic hormone and others), T26-27", "ref": ""}, {"no": 21, "t": "T28", "topic": "Monogenic diabetes (MODY)", "level": "ประยุกต์", "orig": false, "stem": "A 22-year-old woman of normal weight is found to have a fasting plasma glucose of 152 mg/dL. She has no ketosis and no acanthosis nigricans. Her father, paternal grandmother and older brother were all diagnosed with diabetes before the age of 25 and are not obese. Islet autoantibodies (anti-GAD, IA-2) are negative and fasting C-peptide is in the normal range. She responds dramatically to a very low dose of a sulfonylurea.", "lead": "Which is the most likely diagnosis?", "opts": ["Type 1 diabetes mellitus", "Type 2 diabetes mellitus", "Latent autoimmune diabetes in adults", "Gestational diabetes mellitus", "Maturity-onset diabetes of the young (MODY)"], "correct": "Maturity-onset diabetes of the young (MODY)", "exp": "MODY เป็นเบาหวานจากยีนเดี่ยวที่ถ่ายทอดแบบ **autosomal dominant** จึงพบผู้ป่วยติดต่อกันสามชั่วอายุคน เริ่มก่อนอายุ 25 ปี ในผู้ที่รูปร่างปกติ **ไม่มี autoantibody** และยังมี C-peptide อยู่ (พิสูจน์ว่าเบตาเซลล์ยังทำงาน) ชนิดที่พบบ่อยที่สุดคือ HNF1A-MODY (MODY3) ซึ่งมีความไวต่อ sulfonylurea สูงมากจนคุมน้ำตาลได้ด้วยขนาดต่ำ การวินิจฉัยให้ถูกจึงเปลี่ยนการรักษาได้จริง เพราะผู้ป่วยจำนวนมากถูกวินิจฉัยผิดเป็นเบาหวานชนิดที่ 1 และได้รับอินซูลินโดยไม่จำเป็น", "reasons": {"Type 1 diabetes mellitus": "เบาหวานชนิดที่ 1 มี autoantibody เป็นบวก C-peptide ต่ำหรือวัดไม่ได้ และตอบสนองต่อ sulfonylurea ไม่ดี", "Type 2 diabetes mellitus": "เบาหวานชนิดที่ 2 สัมพันธ์กับภาวะอ้วนและภาวะดื้ออินซูลิน มักไม่เริ่มก่อนอายุ 25 ปีในคนผอม", "Latent autoimmune diabetes in adults": "LADA เป็นภาวะภูมิคุ้มกันทำลายเบตาเซลล์อย่างช้า ๆ ในผู้ใหญ่ ซึ่งต้องมี anti-GAD เป็นบวก", "Gestational diabetes mellitus": "ผู้ป่วยไม่ได้ตั้งครรภ์"}, "src": "สร้างใหม่ (อ้างขอบเขต T28)", "ref": ""}, {"no": 22, "t": "T28", "topic": "Hyperinsulinaemia and acanthosis nigricans", "level": "ประยุกต์", "orig": false, "stem": "A 15-year-old boy with a body mass index at the 98th percentile has velvety, thickened, hyperpigmented plaques in both axillae and on the back of the neck. Fasting insulin is markedly elevated and fasting glucose is 108 mg/dL. Morning cortisol and thyroid function are normal, and he takes no medication.", "lead": "Which mechanism best explains the skin findings?", "opts": ["Chronic cortisol excess acting on dermal fibroblasts", "Non-enzymatic glycation of dermal collagen", "Hyperinsulinaemia cross-activating IGF-1 receptors", "Excess melanocyte-stimulating hormone from the pituitary gland", "Zinc deficiency causing epidermal dysmaturation"], "correct": "Hyperinsulinaemia cross-activating IGF-1 receptors", "exp": "ในภาวะดื้ออินซูลิน ตับอ่อนชดเชยด้วยการหลั่งอินซูลินปริมาณมาก อินซูลินที่สูงมากจะจับ **IGF-1 receptor** ซึ่งมีโครงสร้างคล้าย insulin receptor แบบข้ามสาย (cross-reactivity) บน keratinocyte และ fibroblast กระตุ้นการเพิ่มจำนวนเซลล์ ทำให้ผิวหนังหนาตัวเป็นกำมะหยี่และคล้ำที่บริเวณข้อพับ ลักษณะนี้จึงเป็น **สัญญาณทางกายที่บ่งชี้ภาวะดื้ออินซูลิน** ที่ตรวจพบได้จากการดูภายนอก และเป็นข้อบ่งชี้ให้คัดกรองเบาหวานชนิดที่ 2 ในเด็กและวัยรุ่นที่มีน้ำหนักเกิน (ต้องแยกจาก acanthosis nigricans ที่เกิดเร็วและกระจายกว้างในผู้ใหญ่ ซึ่งอาจบ่งชี้มะเร็งกระเพาะอาหาร)", "reasons": {"Chronic cortisol excess acting on dermal fibroblasts": "ระดับ cortisol ปกติ และ Cushing syndrome ทำให้ผิวบางและมีรอยแตกสีม่วง", "Non-enzymatic glycation of dermal collagen": "Glycation ของคอลลาเจนทำให้เกิด diabetic cheiroarthropathy และผิวแข็ง ไม่ใช่ผื่นกำมะหยี่คล้ำ", "Excess melanocyte-stimulating hormone from the pituitary gland": "MSH ที่สูงทำให้ผิวคล้ำแบบกระจายทั่วตัวและที่เยื่อบุ ดังเช่นใน Addison disease ไม่ใช่หนาตัวเฉพาะข้อพับ", "Zinc deficiency causing epidermal dysmaturation": "การขาดสังกะสีทำให้เกิดผื่นแดงลอกรอบปากและทวาร (acrodermatitis enteropathica)"}, "src": "สร้างใหม่ (อ้างขอบเขต T28)", "ref": ""}, {"no": 23, "t": "T29", "topic": "Drugs used in diabetes", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "What is the key molecular event initiated by sulfonylureas (e.g., glipizide) on pancreatic beta cells to induce insulin release?", "opts": ["Direct activation of voltage-gated Ca2+ channels", "Closure of ATP-sensitive K+ channels", "Stimulation of GLP-1 receptor intracellular pathways", "Activation of AMP-activated protein kinase (AMPK)", "SGLT2 inhibitors"], "correct": "Closure of ATP-sensitive K+ channels", "exp": "Sulfonylurea จับกับหน่วยย่อย **SUR1** ของ ATP-sensitive potassium channel บนเยื่อหุ้ม beta cell ทำให้ช่องปิด โพแทสเซียมออกจากเซลล์ไม่ได้ เกิด **depolarization** ของเยื่อหุ้มเซลล์ เปิด voltage-gated calcium channel แคลเซียมไหลเข้าเซลล์และกระตุ้นการหลั่ง insulin ออกมา กลไกนี้เกิด **โดยไม่ขึ้นกับระดับน้ำตาล** ยากลุ่มนี้จึงทำให้เกิดภาวะน้ำตาลต่ำได้ และทำให้น้ำหนักเพิ่ม ต่างจากยากลุ่ม incretin ที่ออกฤทธิ์แบบขึ้นกับระดับน้ำตาล", "reasons": {"Direct activation of voltage-gated Ca2+ channels": "Calcium channel เปิดเป็นผลตามจาก depolarization ไม่ใช่ถูกกระตุ้นโดยยาโดยตรง", "Stimulation of GLP-1 receptor intracellular pathways": "เป็นกลไกของ GLP-1 receptor agonist และ DPP-4 inhibitor", "Activation of AMP-activated protein kinase (AMPK)": "การกระตุ้น AMPK เป็นกลไกของ metformin", "SGLT2 inhibitors": "SGLT2 inhibitor เป็นชื่อกลุ่มยา ไม่ใช่เหตุการณ์ระดับโมเลกุลใน beta cell"}, "src": "ข้อสอบต้นฉบับ - Formative โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 24, "t": "T29", "topic": "Drugs used in diabetes", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which class of oral antidiabetic agents is contraindicated in patients with NYHA Class III-IV heart failure due to fluid retention and plasma volume expansion?", "opts": ["SGLT2 inhibitors", "Alpha-glucosidase inhibitors", "Thiazolidinediones", "GLP-1 receptor agonists", "Biguanides"], "correct": "Thiazolidinediones", "exp": "**Thiazolidinedione (pioglitazone, rosiglitazone)** กระตุ้นตัวรับนิวเคลียร์ **PPAR-gamma** ซึ่งนอกจากจะเพิ่มความไวต่ออินซูลินแล้ว ยังเพิ่มการดูดกลับโซเดียมที่ collecting duct ทำให้เกิดการคั่งของน้ำ ปริมาตรพลาสมาเพิ่ม บวมที่ขา และทำให้ภาวะหัวใจล้มเหลวกำเริบ จึงเป็นข้อห้ามในผู้ป่วย NYHA class III-IV ผลข้างเคียงอื่นที่ต้องจำคือ น้ำหนักเพิ่ม กระดูกหักในสตรีวัยหมดประจำเดือน และภาวะบวมที่จุดรับภาพ", "reasons": {"SGLT2 inhibitors": "SGLT2 inhibitor กลับ **ลด** ปริมาตรน้ำและมีประโยชน์ในผู้ป่วยหัวใจล้มเหลว", "Alpha-glucosidase inhibitors": "Alpha-glucosidase inhibitor ออกฤทธิ์ในลำไส้ ผลข้างเคียงหลักคือท้องอืดและผายลม", "GLP-1 receptor agonists": "GLP-1 receptor agonist ทำให้น้ำหนักลดและมีข้อมูลด้านหัวใจและหลอดเลือดที่ดี", "Biguanides": "Metformin เคยถูกห้ามใช้ในภาวะหัวใจล้มเหลวในอดีต แต่ปัจจุบันใช้ได้หากการทำงานของไตและการไหลเวียนคงที่"}, "src": "ข้อสอบต้นฉบับ - Formative โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 25, "t": "T30", "topic": "Insulin preparations", "level": "ประยุกต์", "orig": false, "stem": "A 28-year-old man with type 1 diabetes uses insulin glargine once at bedtime and insulin aspart before each meal. He asks why the bedtime insulin does not cause a pronounced peak or nocturnal hypoglycaemia in the way that intermediate-acting NPH insulin did.", "lead": "Which property of insulin glargine best explains its basal profile?", "opts": ["It is a rapid-acting analogue that dissociates from hexamers quickly", "It is absorbed exclusively through the lymphatic system", "It has a higher affinity for the IGF-1 receptor than for the insulin receptor", "It precipitates as microcrystals at neutral tissue pH", "It is a suspension of insulin with protamine and zinc"], "correct": "It precipitates as microcrystals at neutral tissue pH", "exp": "Insulin glargine ถูกดัดแปลงกรดอะมิโนให้มี isoelectric point ใกล้ pH 7 และบรรจุในสารละลายที่เป็นกรด (pH ประมาณ 4) เมื่อฉีดเข้าชั้นใต้ผิวหนังซึ่งมี pH เป็นกลาง ยาจะ **ตกตะกอนเป็นผลึกเล็ก ๆ** แล้วค่อย ๆ ละลายและถูกดูดซึมอย่างช้าและสม่ำเสมอ ให้ระดับยาที่แทบไม่มียอด (peakless) นาน 20-24 ชั่วโมง จึงเลียนแบบการหลั่งอินซูลินพื้นฐานได้ดีและลดความเสี่ยงน้ำตาลต่ำตอนกลางคืนเมื่อเทียบกับ NPH ข้อควรจำคือ **ห้ามผสมในหลอดฉีดเดียวกับอินซูลินชนิดอื่น** เพราะ pH ที่เป็นกรดจะทำลายคุณสมบัติของทั้งคู่", "reasons": {"It is a rapid-acting analogue that dissociates from hexamers quickly": "การแตกตัวจาก hexamer อย่างรวดเร็วเป็นคุณสมบัติของ rapid-acting analogue เช่น aspart, lispro", "It is absorbed exclusively through the lymphatic system": "อินซูลินดูดซึมเข้าหลอดเลือดฝอยเป็นหลัก", "It has a higher affinity for the IGF-1 receptor than for the insulin receptor": "ความสัมพันธ์กับ IGF-1 receptor ไม่ใช่กลไกของการออกฤทธิ์ยาว และเป็นประเด็นด้านความปลอดภัยที่แยกต่างหาก", "It is a suspension of insulin with protamine and zinc": "การเติม protamine และสังกะสีคือหลักการของ NPH insulin ซึ่งมียอดชัดเจนที่ 4-10 ชั่วโมง"}, "src": "สร้างใหม่ (อ้างขอบเขต T29-30)", "ref": ""}, {"no": 26, "t": "T30", "topic": "Drug-induced thyroid dysfunction", "level": "ประยุกต์", "orig": false, "stem": "A 68-year-old man with atrial fibrillation has taken amiodarone for 14 months. He develops weight loss, tremor and worsening palpitations. Free T4 is elevated and TSH is suppressed. He grew up in an area of mild iodine deficiency and ultrasound shows a multinodular goitre with normal or increased vascularity on colour Doppler. Serum interleukin-6 is normal.", "lead": "Which mechanism best explains this presentation?", "opts": ["An iodine load driving synthesis in nodular tissue", "Development of TSH receptor stimulating antibodies", "Inhibition of peripheral conversion of T4 to T3", "Increased concentration of thyroxine-binding globulin", "Destructive thyroiditis releasing preformed hormone"], "correct": "An iodine load driving synthesis in nodular tissue", "exp": "Amiodarone มีไอโอดีนเป็นองค์ประกอบราวร้อยละ 37 โดยน้ำหนัก ยาขนาด 200 มก. จึงปลดปล่อยไอโอดีนหลายสิบเท่าของความต้องการต่อวัน **Type 1 amiodarone-induced thyrotoxicosis (AIT)** เกิดในผู้ที่มีพยาธิสภาพของต่อมไทรอยด์อยู่เดิม เช่น multinodular goitre หรือ Graves แฝง เนื้อเยื่อที่ทำงานอิสระจะใช้ไอโอดีนที่ได้มาสร้างฮอร์โมนมากเกิน เรียกปรากฏการณ์ **Jod-Basedow** ลักษณะที่ช่วยแยกคือหลอดเลือดในต่อมยังมีหรือเพิ่มขึ้นบน Doppler และ IL-6 ปกติ รักษาด้วยยาต้านไทรอยด์ ต่างจาก type 2 ซึ่งเป็นการอักเสบทำลายต่อมโดยตรง หลอดเลือดลดลง และตอบสนองต่อ glucocorticoid", "reasons": {"Development of TSH receptor stimulating antibodies": "ไม่มีหลักฐานของ Graves disease ที่เพิ่งเกิดใหม่ และภาพอัลตราซาวด์เป็นก้อนหลายก้อน", "Inhibition of peripheral conversion of T4 to T3": "การยับยั้ง deiodinase เป็นผลปกติของ amiodarone ที่ทำให้ T4 สูงเล็กน้อยและ T3 ต่ำ **โดยที่ผู้ป่วยยังปกติ** ไม่ทำให้เกิดอาการ thyrotoxicosis", "Increased concentration of thyroxine-binding globulin": "TBG สูงจะทำให้ total T4 สูงแต่ free T4 และ TSH ปกติ", "Destructive thyroiditis releasing preformed hormone": "นั่นคือกลไกของ type 2 AIT ซึ่งจะพบต่อมไทรอยด์ปกติ หลอดเลือดลดลง และ IL-6 สูง"}, "src": "สร้างใหม่ (อ้างขอบเขต T29-30 Other endocrine drugs)", "ref": ""}, {"no": 27, "t": "T31", "topic": "Timing of specimen collection", "level": "ประยุกต์", "orig": false, "stem": "A 45-year-old woman is being investigated for possible adrenal insufficiency. The physician specifically requests that the serum cortisol sample be drawn between 08.00 and 09.00 hours, and notes that a result taken at 16.00 would be uninterpretable.", "lead": "Which is the best reason for this requirement?", "opts": ["Cortisol is chemically unstable in serum later in the day", "Food intake in the afternoon falsely elevates serum cortisol", "Cortisol has a diurnal rhythm peaking in the early morning", "Plasma ACTH reaches its peak at midnight, when cortisol is highest", "Cortisol binding globulin is saturated only in the afternoon"], "correct": "Cortisol has a diurnal rhythm peaking in the early morning", "exp": "การหลั่ง cortisol เป็นแบบ pulsatile และมีจังหวะรอบวัน โดยสูงสุดราว 06.00-08.00 น. และต่ำสุดราวเที่ยงคืน การเจาะตอนเช้าจึงเป็นจุดที่ต่อมหมวกไตควรทำงานเต็มที่ ค่าที่ต่ำผิดปกติจึงมีความหมาย โดยทั่วไป cortisol ตอนเช้าที่ต่ำกว่า 3 mcg/dL สนับสนุนการวินิจฉัยอย่างมาก และค่าที่มากกว่า 15-18 mcg/dL ช่วยตัดโรคออก ค่าที่อยู่ระหว่างนั้นต้องทำ ACTH stimulation test ต่อ ในทางกลับกัน การวินิจฉัย **Cushing syndrome** อาศัยหลักการเดียวกันแต่เจาะคนละเวลา คือใช้ **late-night salivary cortisol** เพราะสิ่งที่หายไปคือจุดต่ำสุดตอนกลางคืน", "reasons": {"Cortisol is chemically unstable in serum later in the day": "Cortisol ค่อนข้างคงตัวในซีรัม การเลือกเวลาเป็นเรื่องสรีรวิทยาไม่ใช่ความคงตัว", "Food intake in the afternoon falsely elevates serum cortisol": "อาหารไม่ได้เพิ่ม cortisol อย่างมีนัยสำคัญจนต้องกำหนดเวลาเจาะ", "Plasma ACTH reaches its peak at midnight, when cortisol is highest": "ACTH สูงสุดในช่วงเช้าตรู่พร้อมกับ cortisol ไม่ใช่ตอนเที่ยงคืน", "Cortisol binding globulin is saturated only in the afternoon": "CBG ไม่ได้อิ่มตัวตามช่วงเวลาของวัน"}, "src": "สร้างใหม่ (อ้างขอบเขต T31-32)", "ref": ""}, {"no": 28, "t": "T31", "topic": "Preanalytical handling of specimens", "level": "ประยุกต์", "orig": false, "stem": "A junior doctor collects a plasma sample for ACTH from a patient with suspected adrenal insufficiency. The sample is drawn into a plain glass clot tube, left on the ward bench at room temperature for 3 hours, and then sent to the laboratory. The reported ACTH is inappropriately low and does not fit the clinical picture.", "lead": "Which handling requirement was most likely violated?", "opts": ["The sample should have been exposed to light before analysis", "The sample should have been incubated at 37 degrees Celsius", "The sample should have been collected in a lithium heparin tube and kept warm", "A pre-chilled EDTA tube transported on ice", "The sample should have been allowed to clot fully for at least 4 hours"], "correct": "A pre-chilled EDTA tube transported on ice", "exp": "ACTH เป็น polypeptide 39 กรดอะมิโนที่ **ถูกย่อยอย่างรวดเร็วโดย protease ในเลือด** และยัง **ดูดซับติดผิวแก้ว** ได้ง่าย ตัวอย่างจึงต้องเก็บในหลอด EDTA พลาสติกที่แช่เย็นไว้ล่วงหน้า นำส่งในน้ำแข็ง และปั่นแยกพลาสมาแยกเก็บที่อุณหภูมิต่ำภายในเวลาสั้น ๆ หากปล่อยทิ้งไว้ที่อุณหภูมิห้องในหลอดแก้ว ค่าที่ได้จะ **ต่ำกว่าความเป็นจริง** และอาจนำไปสู่การแปลผลผิดว่าเป็น secondary adrenal insufficiency หลักการเดียวกันนี้ใช้กับ plasma renin activity, insulin, PTH และ catecholamine ซึ่งล้วนเป็นสารที่ไม่คงตัว ความผิดพลาดส่วนใหญ่ของห้องปฏิบัติการเกิดในระยะ **preanalytical** เช่นนี้", "reasons": {"The sample should have been exposed to light before analysis": "การสัมผัสแสงไม่ใช่ประเด็นของ ACTH (แต่สำคัญกับ bilirubin และวิตามินบางชนิด)", "The sample should have been incubated at 37 degrees Celsius": "ความร้อนยิ่งเร่งการย่อยสลาย", "The sample should have been collected in a lithium heparin tube and kept warm": "Lithium heparin ไม่ใช่สารกันเลือดแข็งที่แนะนำสำหรับ ACTH และการเก็บให้อุ่นยิ่งทำให้แย่ลง", "The sample should have been allowed to clot fully for at least 4 hours": "ACTH ต้องใช้ **พลาสมา** ไม่ใช่ซีรัม การรอให้เลือดแข็งตัวยิ่งยืดเวลาที่สารสัมผัสกับ protease"}, "src": "สร้างใหม่ (อ้างขอบเขต T31-32)", "ref": ""}, {"no": 29, "t": "T32", "topic": "Limitations of HbA1c", "level": "ประยุกต์", "orig": false, "stem": "A 48-year-old woman with known haemolytic anaemia has a fasting plasma glucose of 168 mg/dL on two occasions and a 2-hour value of 258 mg/dL on a 75 g oral glucose tolerance test. Her HbA1c, measured twice by a certified method, is 5.3%. Reticulocyte count is elevated and haptoglobin is undetectable.", "lead": "Which best explains the discordance between her HbA1c and her glucose results?", "opts": ["Shortened red cell survival lowers the HbA1c", "Iron deficiency falsely lowering the HbA1c", "The glucose rise is too recent to be reflected in HbA1c", "Her glycation rate is genetically increased", "Laboratory interference falsely raising the glucose values"], "correct": "Shortened red cell survival lowers the HbA1c", "exp": "HbA1c สะท้อนระดับน้ำตาลเฉลี่ยราว 8-12 สัปดาห์ **โดยตั้งสมมติฐานว่าเม็ดเลือดแดงมีอายุปกติราว 120 วัน** ในภาวะเม็ดเลือดแดงแตก เม็ดเลือดแดงอายุสั้นลงมาก จึงมีเวลาให้กลูโคสจับกับฮีโมโกลบินน้อยลง ค่า HbA1c จึง **ต่ำกว่าความเป็นจริง** สาเหตุอื่นที่ทำให้ค่าต่ำเทียมได้แก่ การเสียเลือด การให้เลือด การตั้งครรภ์ระยะท้าย ไตวายที่ได้ EPO และ hypersplenism ส่วนภาวะที่ทำให้ค่าสูงเทียมคือการขาดธาตุเหล็กและภาวะ asplenia ในกรณีเช่นนี้ต้องวินิจฉัยเบาหวานด้วย **ระดับกลูโคส** และติดตามด้วย fructosamine หรือ continuous glucose monitoring แทน", "reasons": {"Iron deficiency falsely lowering the HbA1c": "การขาดธาตุเหล็กทำให้ HbA1c **สูง** เทียม ไม่ใช่ต่ำ", "The glucose rise is too recent to be reflected in HbA1c": "OGTT ที่ผิดปกติชัดเจนร่วมกับ FPG สูงซ้ำสองครั้งบ่งชี้ภาวะที่เป็นมานาน", "Her glycation rate is genetically increased": "ผู้ที่มีอัตราการ glycation สูงกว่าปกติจะมี HbA1c สูงเทียม ไม่ใช่ต่ำ", "Laboratory interference falsely raising the glucose values": "การวัดกลูโคสด้วยวิธีมาตรฐานสองครั้งที่สอดคล้องกันไม่น่าจะผิดพลาดทั้งคู่"}, "src": "สร้างใหม่ (อ้างขอบเขต T31-32)", "ref": ""}, {"no": 30, "t": "T32", "topic": "Dynamic endocrine testing", "level": "ประยุกต์", "orig": false, "stem": "A 46-year-old man has coarse facial features, enlarging hands and obstructive sleep apnoea. Serum IGF-1 is elevated for age. Because GH is secreted in pulses and a random value can be misleading, the endocrinologist performs a dynamic suppression test using a 75 g oral glucose load with serial GH measurements.", "lead": "Which result would confirm the diagnosis of acromegaly?", "opts": ["A serum IGF-1 that falls below the reference range", "A 2-hour plasma glucose above 200 mg/dL", "Failure of GH to suppress below about 1 ng/mL", "A rise in TSH during the test", "Suppression of GH to below 0.4 ng/mL"], "correct": "Failure of GH to suppress below about 1 ng/mL", "exp": "ในคนปกติ กลูโคสที่สูงขึ้นจะกดการหลั่ง GH ลงจนต่ำกว่าค่าตัดตามวิธีที่ใช้ (โดยทั่วไปน้อยกว่า 1 ng/mL และน้อยกว่า 0.4 ng/mL หากใช้ ultrasensitive assay) ในผู้ป่วย acromegaly เนื้องอก somatotroph หลั่ง GH อย่างอิสระโดยไม่ตอบสนองต่อการป้อนกลับ **GH จึงไม่ถูกกด** การทดสอบนี้จึงเป็นมาตรฐานยืนยันการวินิจฉัย ส่วน IGF-1 ใช้คัดกรองเพราะระดับค่อนข้างคงที่ตลอดวันและสะท้อนการสัมผัส GH สะสม (การวัด GH เพียงครั้งเดียวไม่มีประโยชน์เพราะหลั่งเป็นช่วง ๆ) เมื่อยืนยันทางชีวเคมีได้แล้วจึงส่ง MRI ต่อมใต้สมองเพื่อหาตำแหน่งเนื้องอก", "reasons": {"A serum IGF-1 that falls below the reference range": "IGF-1 ที่ต่ำจะตัดการวินิจฉัยออกไป", "A 2-hour plasma glucose above 200 mg/dL": "ภาวะน้ำตาลสูงเป็นผลตามของ acromegaly แต่ไม่ใช่เกณฑ์วินิจฉัยโรคนี้", "A rise in TSH during the test": "TSH ไม่ได้ถูกใช้ในการแปลผลการทดสอบนี้", "Suppression of GH to below 0.4 ng/mL": "การกดได้ต่ำกว่า 0.4 ng/mL คือการตอบสนอง **ปกติ**"}, "src": "สร้างใหม่ (อ้างขอบเขต T31-32)", "ref": ""}];
+const STAGES    = [{"name": "ยาไทรอยด์และยากระดูก", "node": "Thyroid & bone", "ts": ["T18", "T19", "T20"]}, {"name": "ต่อมหมวกไต", "node": "Adrenal", "ts": ["T21", "T22", "T23", "T24", "T25"]}, {"name": "ตับอ่อนและเมแทบอลิซึม", "node": "Pancreas", "ts": ["T26", "T27", "T28", "T29", "T30"]}, {"name": "การตรวจทางห้องปฏิบัติการ", "node": "Laboratory", "ts": ["T31", "T32"]}];
+const BADGES    = ["คุมไทรอยด์และกระดูกอยู่", "อ่านต่อมหมวกไตขาด", "จัดการเบาหวานได้", "แปลผลแล็บเป็น"];
+const LEVELS = [[0,"Intern"],[80,"Resident"],[180,"Chief Resident"],[300,"Fellow"],[420,"Endocrinologist"]];
+
+/* ---- group questions into stages: theory first, then applied ---- */
+STAGES.forEach((s,i)=>{
+  const pool = QUESTIONS.filter(q=>s.ts.includes(q.t));
+  const key = q => (q.level==="ทฤษฎี"?0:1)*1000 + parseInt(q.t.slice(1))*10 + q.no%10;
+  s.qs = pool.sort((a,b)=>key(a)-key(b));
+  s.idx = i;
+});
+
+const S = { stage:0, i:0, xp:0, streak:0, best:0, done:new Set(),
+            wrongIds:[], answered:{}, mode:"stage", queue:[], t0:0, timer:null, hinted:false,
+            name:"", sid:"", started:Date.now() };
+
+const $ = id => document.getElementById(id);
+const esc = t => t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const rich = t => esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+function rank(){ let r=LEVELS[0][1]; LEVELS.forEach(l=>{ if(S.xp>=l[0]) r=l[1]; }); return r; }
+function syncChips(){
+  $("xpChip").textContent = S.xp + " XP";
+  $("stChip").textContent = "ต่อเนื่อง " + S.streak;
+  const total = QUESTIONS.length, ans = Object.keys(S.answered).length;
+  $("pbar").style.width = (ans/total*100) + "%";
+}
+
+/* ---------------- home ---------------- */
+function drawHome(){
+  $("axis").innerHTML = STAGES.map((s,i)=>{
+    const open = i===0 || S.done.has(i-1);
+    const got  = s.qs.filter(q=>S.answered[q.no]==="right").length;
+    const cls  = S.done.has(i) ? "done" : (open ? "" : "locked");
+    return `<div class="node ${cls}"><span class="dot"></span>
+      <div class="gland">${esc(s.node)}</div>
+      <h3>${esc(s.name)}</h3>
+      <div class="meta">${s.ts.join(" · ")} — ${s.qs.length} ข้อ</div>
+      ${S.done.has(i) ? `<div class="score">ตอบถูก ${got} จาก ${s.qs.length} ข้อ</div>` : ""}
+      ${open ? `<button class="go" data-s="${i}">${S.done.has(i)?"เล่นซ้ำ":"เริ่มสเตจนี้"}</button>`
+             : `<div class="meta">ปลดล็อกเมื่อจบสเตจก่อนหน้า</div>`}
+    </div>`;
+  }).join("");
+  $("axis").querySelectorAll(".go").forEach(b=>b.onclick=()=>startStage(+b.dataset.s));
+  const nextOpen = STAGES.findIndex((s,i)=> !S.done.has(i) && (i===0||S.done.has(i-1)));
+  $("startBtn").textContent = nextOpen<0 ? "เล่นสเตจแรกอีกครั้ง" : (Object.keys(S.answered).length? "เล่นสเตจถัดไป":"เริ่มสเตจแรก");
+  $("startBtn").onclick = ()=> startStage(nextOpen<0?0:nextOpen);
+  $("wrongBtn").classList.toggle("hidden", S.wrongIds.length===0);
+  $("wrongBtn").textContent = "ทบทวนเฉพาะข้อที่ตอบผิด (" + S.wrongIds.length + " ข้อ)";
+  $("wrongBtn").onclick = startWrong;
+  $("idBox").classList.toggle("hidden", !ENDPOINT || !!S.name);
+  $("boardBtn").classList.toggle("hidden", !ENDPOINT);
+  $("boardBtn").onclick = loadBoard;
+  if(ENDPOINT){ $("diceBtn").onclick = ()=>{ $("nameIn").value = randomAlias(); }; }
+  show("home");
+}
+function show(id){ ["home","quiz","result","board"].forEach(x=>$(x).classList.toggle("hidden",x!==id)); window.scrollTo(0,0); }
+
+/* ---------------- leaderboard ---------------- */
+const ALIAS_A=["หมี","กระต่าย","นกฮูก","เสือ","ปลาวาฬ","แมวส้ม","พะยูน","ช้างน้อย","เต่าทอง","หมาป่า"];
+const ALIAS_B=["ไทรอยด์","คอร์ติซอล","อินซูลิน","แคลเซียม","พิทูอิทารี","อะดรีนัล","เมลาโทนิน","กลูคากอน"];
+function randomAlias(){
+  return ALIAS_A[Math.floor(Math.random()*ALIAS_A.length)]+" "+
+         ALIAS_B[Math.floor(Math.random()*ALIAS_B.length)]+" "+
+         (Math.floor(Math.random()*89)+10);
+}
+function readId(){ S.name = ($("nameIn").value||"").trim().slice(0,24); return true; }
+function submitScore(){
+  if(!ENDPOINT || !S.name) return;
+  const right = QUESTIONS.filter(q=>S.answered[q.no]==="right").length;
+  const payload = { quest:QUEST, name:S.name, xp:S.xp,
+    right:right, total:QUESTIONS.length, answered:Object.keys(S.answered).length,
+    streak:S.best, stages:S.done.size, minutes:Math.round((Date.now()-S.started)/60000) };
+  try{
+    fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)});
+  }catch(e){}
+}
+function loadBoard(){
+  show("board");
+  $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">กำลังโหลดคะแนน…</p></div>`;
+  const cb = "cb"+Date.now();
+  window[cb] = rows => { drawBoard(rows); delete window[cb]; };
+  const sc = document.createElement("script");
+  sc.src = ENDPOINT + (ENDPOINT.includes("?")?"&":"?") + "quest=" + encodeURIComponent(QUEST) + "&callback=" + cb;
+  sc.onerror = () => { $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">โหลดคะแนนไม่สำเร็จ ตรวจสอบลิงก์ Apps Script หรือลองใหม่อีกครั้ง</p></div>
+    <button class="cta ghost" onclick="drawHome()">กลับหน้าสเตจ</button>`; };
+  document.head.appendChild(sc);
+}
+function drawBoard(rows){
+  rows = rows || [];
+  const body = rows.length ? rows.map((r,i)=>
+    `<tr class="${r.name===S.name?"me":""}"><td class="n">${i+1}</td><td>${esc(r.name||"")}</td>
+     <td class="n">${r.xp}</td><td class="n">${r.right}/${r.total}</td><td class="n">${r.tries||1}</td></tr>`).join("")
+    : `<tr><td colspan="5">ยังไม่มีใครส่งคะแนน เป็นคนแรกได้เลย</td></tr>`;
+  $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">${esc(QUEST)} · เรียงตาม XP สูงสุดของแต่ละคน</p></div>
+    <table><thead><tr><th>อันดับ</th><th>ชื่อ</th><th class="n">XP</th><th class="n">ตอบถูก</th><th class="n">เล่นแล้ว</th></tr></thead>
+    <tbody>${body}</tbody></table>
+    <button class="cta ghost" onclick="drawHome()" style="margin-top:20px">กลับหน้าสเตจ</button>`;
+}
+
+function startStage(i){
+  if(ENDPOINT) readId();
+  S.mode="stage"; S.stage=i; S.queue=STAGES[i].qs.slice(); S.i=0; render(); }
+function startWrong(){
+  S.mode="wrong";
+  S.queue = S.wrongIds.map(n=>QUESTIONS.find(q=>q.no===n));
+  S.wrongIds = []; S.i=0; render();
+}
+
+/* ---------------- question ---------------- */
+function render(){
+  show("quiz");
+  const q = S.queue[S.i];
+  S.hinted=false; S.t0=Date.now();
+  clearInterval(S.timer);
+  S.timer=setInterval(()=>{ const s=Math.floor((Date.now()-S.t0)/1000);
+    $("clock").textContent = Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); },500);
+  $("clock").textContent="0:00";
+
+  const isBoss = S.mode==="stage" && S.i===S.queue.length-1;
+  $("qhead").innerHTML =
+    `<span class="tag t">${q.t}</span>`+
+    `<span class="tag lv">${q.level}</span>`+
+    (q.orig?`<span class="tag src">ข้อของอาจารย์ผู้สอน</span>`:"")+
+    (isBoss?`<span class="tag boss">ข้อปิดสเตจ</span>`:"")+
+    `<span class="qtopic">ข้อ ${S.i+1} จาก ${S.queue.length} — ${esc(q.topic)}</span>`;
+
+  $("stem").textContent = q.stem || "";
+  $("stem").classList.toggle("hidden", !q.stem);
+  $("lead").textContent = q.lead;
+
+  const opts = shuffle(q.opts);
+  $("opts").innerHTML = opts.map((o,i)=>
+    `<button class="opt" data-o="${esc(o)}"><span class="k">${"ABCDE"[i]}</span><span>${esc(o)}</span></button>`).join("");
+  $("opts").querySelectorAll(".opt").forEach(b=> b.onclick=()=>answer(b,q));
+
+  $("reveal").innerHTML="";
+  $("nextBtn").classList.add("hidden");
+  $("hintBtn").disabled=false;
+  $("hintBtn").onclick=()=>useHint(q);
+  $("quitBtn").onclick=()=>drawHome();
+  syncChips();
+}
+
+function useHint(q){
+  S.hinted=true; S.xp=Math.max(0,S.xp-3); $("hintBtn").disabled=true;
+  const wrongBtns=[...$("opts").querySelectorAll(".opt")].filter(b=>b.dataset.o!==q.correct);
+  shuffle(wrongBtns).slice(0,2).forEach(b=>{ b.classList.add("dim"); b.disabled=true; });
+  syncChips();
+}
+
+function answer(btn,q){
+  clearInterval(S.timer);
+  const secs=(Date.now()-S.t0)/1000;
+  const right = btn.dataset.o===q.correct;
+  const first = !(q.no in S.answered);
+
+  let gained=0, notes=[];
+  if(right){
+    S.streak++; S.best=Math.max(S.best,S.streak);
+    if(first){ gained+=10; notes.push("ตอบถูก +10"); }
+    if(S.streak%3===0){ gained+=5; notes.push("ตอบถูกต่อเนื่อง 3 ข้อ +5"); }
+    if(secs<=45 && !S.hinted){ gained+=2; notes.push("ตอบเร็วภายใน 45 วินาที +2"); }
+  } else {
+    S.streak=0;
+    if(!S.wrongIds.includes(q.no)) S.wrongIds.push(q.no);
+  }
+  S.xp+=gained;
+  S.answered[q.no]= right ? "right" : "wrong";
+
+  $("opts").querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.o===q.correct) b.classList.add("right");
+    else if(b===btn) b.classList.add("chosenwrong");
+  });
+  $("hintBtn").disabled=true;
+
+  const others = q.opts.filter(o=>o!==q.correct)
+    .map(o=>`<div><b>${esc(o)}</b> — ${rich(q.reasons[o]||"")}</div>`).join("");
+
+  $("reveal").innerHTML =
+    `<p class="verdict ${right?"ok":"no"}">${right?"ถูกต้อง":"ยังไม่ใช่"} ` +
+    `<span class="xp">${gained?("+"+gained+" XP · "+notes.join(" · ")):(right?"เคยตอบข้อนี้แล้ว ไม่ได้ XP เพิ่ม":"ไม่ได้ XP")}</span></p>`+
+    `<h4>คำตอบที่ถูกต้อง</h4><p>${esc(q.correct)}</p>`+
+    `<h4>คำอธิบาย</h4><p>${rich(q.exp)}</p>`+
+    `<div class="why"><h4>ทำไมตัวเลือกอื่นไม่ถูก</h4>${others}</div>`+
+    `<p class="cite">${esc(q.src)}${q.ref?" · อ้างอิง: "+esc(q.ref):""}</p>`;
+
+  $("nextBtn").classList.remove("hidden");
+  $("nextBtn").textContent = (S.i===S.queue.length-1) ? "ดูสรุปผล" : "ข้อถัดไป";
+  $("nextBtn").onclick=()=>{ S.i++; if(S.i<S.queue.length) render(); else finish(); };
+  syncChips();
+  $("nextBtn").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+/* ---------------- results ---------------- */
+function finish(){
+  clearInterval(S.timer);
+  if(S.mode==="stage") S.done.add(S.stage);
+  const set = S.queue;
+  const right = set.filter(q=>S.answered[q.no]==="right").length;
+
+  const byT={};
+  QUESTIONS.forEach(q=>{ if(q.no in S.answered){
+    byT[q.t]=byT[q.t]||{r:0,n:0}; byT[q.t].n++; if(S.answered[q.no]==="right") byT[q.t].r++; }});
+  const rows=Object.keys(byT).sort((a,b)=>+a.slice(1)-+b.slice(1)).map(t=>{
+    const d=byT[t], weak=d.r<d.n;
+    return `<tr><td>${t}</td><td class="n">${d.r}/${d.n}</td>
+      <td>${weak?'<span class="weak">ควรทบทวน</span>':'ผ่าน'}</td></tr>`;}).join("");
+
+  const earned = STAGES.map((s,i)=> S.done.has(i));
+  const badges = BADGES.map((b,i)=>
+    `<span class="badge ${earned[i]?"":"off"}">${esc(b)}</span>`).join("")+
+    (Object.keys(S.answered).length===QUESTIONS.length && S.wrongIds.length===0
+      ? `<span class="badge">ผ่านครบทุกหัวข้อ</span>` : "");
+
+  const stageName = S.mode==="stage" ? STAGES[S.stage].name : "ทบทวนข้อที่ตอบผิด";
+  $("result").innerHTML =
+    `<div class="hero"><p class="kicker">${esc(stageName)}</p>
+      <p class="big">${right}<span style="font-size:24px;color:var(--mute)"> / ${set.length}</span></p>
+      <p class="rank">${S.xp} XP · ระดับ ${rank()} · ตอบถูกต่อเนื่องสูงสุด ${S.best} ข้อ</p></div>
+     <div class="badgegrid">${badges}</div>
+     <h3 style="margin:22px 0 0;font-size:19px">ความแม่นยำรายหัวข้อ</h3>
+     <table><thead><tr><th>หัวข้อ</th><th class="n">ตอบถูก</th><th>สถานะ</th></tr></thead><tbody>${rows}</tbody></table>
+     ${(ENDPOINT&&S.name)?'<p class="sendnote">ส่งคะแนนขึ้นกระดานผู้นำแล้วในชื่อ '+esc(S.name)+'</p>':''}
+     <button class="cta" id="r1">กลับหน้าสเตจ</button>
+     ${ENDPOINT?'<button class="cta ghost" id="r3">ดูกระดานผู้นำ</button>':''}
+     ${S.wrongIds.length?'<button class="cta ghost" id="r2">ทบทวนเฉพาะข้อที่ตอบผิด ('+S.wrongIds.length+' ข้อ)</button>':''}`;
+  show("result");
+  submitScore();
+  $("r1").onclick=drawHome;
+  if($("r2")) $("r2").onclick=startWrong;
+  if($("r3")) $("r3").onclick=loadBoard;
+  syncChips();
+}
+
+drawHome();
+</script>
+</body>
+</html>

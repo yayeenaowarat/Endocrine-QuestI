@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Endocrine Quest I · 1502 336 ระบบต่อมไร้ท่อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12222B; --bg:#EEF2F1; --paper:#FFFFFF;
+  --accent:#6A2C91; --accent2:#0F6E68; --soft:#F0E7F7;
+  --ok:#0F6B45; --okbg:#E6F2EB; --no:#A32118; --nobg:#FBEBE9;
+  --line:rgba(18,34,43,.14); --mute:rgba(18,34,43,.58);
+  --rail:44px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"IBM Plex Sans Thai",system-ui,sans-serif;
+  font-size:17px; line-height:1.62; -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,.disp{font-family:"Bai Jamjuree","IBM Plex Sans Thai",sans-serif;font-weight:600;letter-spacing:-.01em}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 96px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:sticky;top:0;z-index:20;background:var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.bar .in{max-width:720px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:12px}
+.brand{font-family:"Bai Jamjuree",sans-serif;font-weight:700;font-size:15px;letter-spacing:.01em}
+.brand small{display:block;font-weight:500;font-size:12px;color:var(--mute);letter-spacing:0}
+.chips{margin-left:auto;display:flex;gap:8px}
+.chip{
+  font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;
+  background:var(--soft);color:var(--accent);white-space:nowrap
+}
+.chip.streak{background:transparent;border:1px solid var(--line);color:var(--mute)}
+.pbar{height:3px;background:var(--line)}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .35s ease}
+
+/* ---------- hero / axis rail ---------- */
+.hero{padding:34px 0 10px}
+.hero .kicker{font-size:14px;color:var(--mute);margin:0 0 6px}
+.hero h1{font-size:34px;line-height:1.15;margin:0 0 8px}
+.hero p.lead{margin:0 0 4px;font-size:17px;color:var(--mute);max-width:52ch}
+
+.axis{margin:26px 0 8px;position:relative;padding-left:var(--rail)}
+.axis::before{
+  content:"";position:absolute;left:15px;top:12px;bottom:12px;width:2px;
+  background:linear-gradient(var(--accent),var(--accent2));opacity:.35
+}
+.node{position:relative;padding:14px 0 14px 4px;border-bottom:1px solid var(--line)}
+.node:last-child{border-bottom:0}
+.node .dot{
+  position:absolute;left:calc(-1 * var(--rail) + 8px);top:20px;width:16px;height:16px;
+  border-radius:50%;background:var(--bg);border:2px solid var(--accent);
+}
+.node.done .dot{background:var(--accent)}
+.node.locked .dot{border-color:var(--line)}
+.node h3{margin:0;font-size:18px}
+.node .meta{font-size:13.5px;color:var(--mute)}
+.node .gland{font-size:12.5px;color:var(--accent2);font-weight:600}
+.node.locked h3,.node.locked .meta{color:var(--mute)}
+.node .go{
+  margin-top:8px;background:none;border:1px solid var(--accent);color:var(--accent);
+  padding:5px 14px;border-radius:999px;font-size:14px;font-weight:600
+}
+.node .go:hover{background:var(--accent);color:#fff}
+.node .score{font-size:13.5px;font-weight:600;color:var(--ok)}
+
+.cta{
+  display:block;width:100%;margin:22px 0 8px;padding:15px 18px;border:0;border-radius:14px;
+  background:var(--accent);color:#fff;font-size:17px;font-weight:600
+}
+.cta.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.cta:disabled{opacity:.4;cursor:not-allowed}
+
+.howto{margin-top:26px;border-top:1px solid var(--line);padding-top:18px;font-size:15px;color:var(--mute)}
+.howto b{color:var(--ink)}
+.howto ul{margin:8px 0 0;padding-left:20px}
+.howto li{margin:4px 0}
+
+/* ---------- question ---------- */
+.qhead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:22px 0 12px}
+.tag{font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:6px}
+.tag.t{background:var(--accent);color:#fff}
+.tag.lv{background:var(--soft);color:var(--accent2)}
+.tag.src{border:1px solid var(--line);color:var(--mute)}
+.tag.boss{background:var(--accent2);color:#fff}
+.qtopic{font-size:13.5px;color:var(--mute);width:100%}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stem{margin:0 0 12px;font-size:16.5px;line-height:1.6}
+.lead{margin:0 0 14px;font-weight:600;font-size:17.5px;line-height:1.5}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;
+  background:var(--paper);border:1px solid var(--line);border-radius:11px;
+  padding:12px 13px;font-size:16.5px;line-height:1.5;transition:border-color .15s,background .15s
+}
+.opt .k{
+  flex:0 0 26px;height:26px;border-radius:7px;background:var(--bg);
+  display:grid;place-items:center;font-weight:600;font-size:14px;color:var(--mute)
+}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.right .k{background:var(--ok);color:#fff}
+.opt.chosenwrong{background:var(--nobg);border-color:var(--no)}
+.opt.chosenwrong .k{background:var(--no);color:#fff}
+.opt.dim{opacity:.42}
+
+.qfoot{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px;color:var(--mute)}
+.hint{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:14px;font-weight:600;color:var(--accent)}
+.hint:disabled{opacity:.4}
+.clock{margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* ---------- reveal ---------- */
+.reveal{margin-top:16px;border-left:3px solid var(--accent);padding:2px 0 2px 14px}
+.reveal .verdict{font-family:"Bai Jamjuree",sans-serif;font-weight:600;font-size:18px;margin:0 0 6px}
+.reveal .verdict.ok{color:var(--ok)}
+.reveal .verdict.no{color:var(--no)}
+.reveal .xp{font-size:14px;color:var(--mute);font-weight:500}
+.reveal h4{margin:14px 0 4px;font-size:15px;color:var(--accent2)}
+.reveal p{margin:0 0 8px;font-size:16px;line-height:1.62}
+.reveal .why{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+.reveal .why div{font-size:15px;margin:0 0 7px;color:var(--mute)}
+.reveal .why b{color:var(--ink);font-weight:600}
+.reveal .cite{font-size:13px;color:var(--mute);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){
+  .reveal{animation:open .28s ease}
+  @keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+}
+
+/* ---------- results ---------- */
+.big{font-family:"Bai Jamjuree",sans-serif;font-size:52px;font-weight:700;line-height:1;margin:0}
+.rank{font-size:20px;font-weight:600;color:var(--accent);margin:2px 0 0}
+.badgegrid{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.badge{font-size:14px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--accent2)}
+.badge.off{background:transparent;border:1px dashed var(--line);color:var(--mute);font-weight:500}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:13.5px;color:var(--mute)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.weak{color:var(--no);font-weight:600}
+.idbox{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:22px}
+.idbox input{
+  width:100%;margin:6px 0;padding:12px 13px;font:inherit;font-size:16.5px;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:10px
+}
+.iderr{margin:4px 0 0;font-size:14px;color:var(--no);font-weight:600}
+.sendnote{font-size:14px;color:var(--mute);margin:10px 0 0}
+.me{background:var(--soft)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="in">
+    <div class="brand">Endocrine Quest I<small>1502 336 ระบบต่อมไร้ท่อ · หัวข้อ T1 – T17</small></div>
+    <div class="chips">
+      <span class="chip" id="xpChip">0 XP</span>
+      <span class="chip streak" id="stChip">ต่อเนื่อง 0</span>
+    </div>
+  </div>
+  <div class="pbar"><i id="pbar"></i></div>
+</div>
+
+<main class="wrap">
+  <!-- HOME -->
+  <section id="home">
+    <div class="hero">
+      <p class="kicker">แบบฝึกทบทวนสำหรับนิสิตแพทย์ชั้นปีที่ 3 · คณะแพทยศาสตร์ มหาวิทยาลัยมหาสารคาม</p>
+      <h1>ทบทวนก่อนสอบ MCQ ครั้งที่ 1</h1>
+      <p class="lead">34 ข้อ เรียงตามลำดับการบรรยาย เริ่มจากข้อทฤษฎีเพื่ออุ่นเครื่อง แล้วไต่ไปข้อวิเคราะห์ ทุกข้อมีคำอธิบายเฉลยทันทีที่ตอบ</p>
+    </div>
+
+    <div class="axis" id="axis"></div>
+
+    <div id="idBox" class="idbox hidden">
+      <h3 style="margin:0 0 4px;font-size:18px">ตั้งชื่อผู้เล่น</h3>
+      <p style="margin:0 0 10px;font-size:14.5px;color:var(--mute)">ใช้ชื่อสมมติได้เลย ไม่ต้องใช้ชื่อจริงหรือรหัสนิสิต ถ้าไม่อยากขึ้นกระดานก็เว้นว่างแล้วกดเริ่มได้</p>
+      <input id="nameIn" type="text" placeholder="เช่น หมีขาว หรือ ทีมไทรอยด์" autocomplete="off" maxlength="24">
+      <button class="hint" id="diceBtn" type="button" style="margin-top:6px">สุ่มชื่อให้</button>
+    </div>
+
+    <button class="cta" id="startBtn">เริ่มสเตจแรก</button>
+    <button class="cta ghost hidden" id="wrongBtn">ทบทวนเฉพาะข้อที่ตอบผิด</button>
+    <button class="cta ghost hidden" id="boardBtn" style="margin-top:8px">ดูกระดานผู้นำ</button>
+
+    <div class="howto">
+      <b>วิธีเก็บคะแนน</b>
+      <ul>
+        <li>ตอบถูกครั้งแรก 10 XP</li>
+        <li>ตอบถูกติดต่อกันครบ 3 ข้อ เพิ่มอีก 5 XP</li>
+        <li>ตอบถูกภายใน 45 วินาทีโดยไม่ใช้คำใบ้ เพิ่มอีก 2 XP</li>
+        <li>ขอคำใบ้ ตัดตัวเลือกผิดออก 2 ข้อ หัก 3 XP</li>
+      </ul>
+      <p style="margin-top:12px">ตำแหน่งตัวเลือกสลับใหม่ทุกครั้งที่เล่น ความก้าวหน้าเก็บไว้ระหว่างเปิดหน้านี้เท่านั้น ปิดแล้วเริ่มใหม่</p>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="qhead" id="qhead"></div>
+    <div class="card">
+      <p class="stem" id="stem"></p>
+      <p class="lead" id="lead"></p>
+      <div class="opts" id="opts"></div>
+      <div class="qfoot">
+        <button class="hint" id="hintBtn">คำใบ้ −3 XP</button>
+        <span class="clock" id="clock">0:00</span>
+      </div>
+      <div id="reveal" aria-live="polite"></div>
+    </div>
+    <button class="cta hidden" id="nextBtn">ข้อถัดไป</button>
+    <button class="cta ghost" id="quitBtn" style="margin-top:8px">กลับหน้าสเตจ</button>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="hidden"></section>
+
+  <!-- LEADERBOARD -->
+  <section id="board" class="hidden"></section>
+</main>
+
+<script>
+/* ============================================================
+   กระดานผู้นำ  (leaderboard)
+   วางลิงก์ Web app ที่ได้จาก Google Apps Script ระหว่างเครื่องหมายคำพูดข้างล่าง
+   ถ้าเว้นว่างไว้ เว็บจะทำงานปกติทุกอย่าง เพียงแต่ไม่ส่งคะแนนและไม่มีกระดานผู้นำ
+   ============================================================ */
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbwfAKuQ9cX-faotzEiywgliOSa6AUwx5qjihovIyCTwAZ7-gMnf3CUdLvEyz9cCqrg9/exec";
+const QUEST = "Endocrine Quest I";
+
+const QUESTIONS = [{"no": 1, "t": "T1", "topic": "Types and synthesis of hormones", "level": "ทฤษฎี", "orig": false, "stem": "", "lead": "Proopiomelanocortin (POMC) is a large precursor protein cleaved by prohormone convertases in corticotrophs of the anterior pituitary gland. Which hormone is derived from this precursor?", "opts": ["Prolactin", "Growth hormone", "Adrenocorticotropic hormone", "Thyroid-stimulating hormone", "Follicle-stimulating hormone"], "correct": "Adrenocorticotropic hormone", "exp": "POMC เป็นตัวอย่างคลาสสิกของ peptide hormone ที่สร้างเป็น **preprohormone แล้วถูกตัดเป็นฮอร์โมนหลายชนิด** ใน corticotroph จะถูกตัดได้ **ACTH**, beta-lipotropin, beta-endorphin และ MSH เนื่องจาก ACTH และ alpha-MSH มีลำดับกรดอะมิโนร่วมกันและกระตุ้น MC1R บน melanocyte ได้ ผู้ป่วยที่มี ACTH สูง เช่น Addison disease หรือ ectopic ACTH syndrome จึงมีผิวคล้ำร่วมด้วย", "reasons": {"Prolactin": "Prolactin สร้างจาก lactotroph อยู่ในตระกูลเดียวกับ GH ไม่ได้มาจาก POMC", "Growth hormone": "GH สร้างจาก somatotroph เป็น single-chain polypeptide", "Thyroid-stimulating hormone": "TSH เป็น glycoprotein ที่ประกอบด้วยหน่วยย่อย alpha และ beta", "Follicle-stimulating hormone": "FSH เป็น glycoprotein เช่นเดียวกับ TSH และ LH"}, "src": "สร้างใหม่ (หัวข้อ T1 ไม่มีไฟล์ formative)", "ref": ""}, {"no": 2, "t": "T1", "topic": "Hormone transport and half-life", "level": "ประยุกต์", "orig": false, "stem": "Two hormones are measured in a healthy adult. Hormone X circulates almost entirely bound to plasma binding proteins and has a half-life of several days. Hormone Y circulates almost entirely in the free form and has a half-life of only a few minutes.", "lead": "Which pair of hormones best fits X and Y?", "opts": ["X = insulin; Y = cortisol", "X = oxytocin; Y = aldosterone", "X = glucagon; Y = estradiol", "X = thyroxine; Y = ACTH", "X = vasopressin; Y = testosterone"], "correct": "X = thyroxine; Y = ACTH", "exp": "ฮอร์โมนที่ละลายในไขมัน (thyroid hormone, steroid) ต้องอาศัย carrier protein เช่น TBG, CBG, SHBG ทำให้ส่วนที่ free มีน้อย ถูกกำจัดช้า และมีค่าครึ่งชีวิตเป็นวัน (T4 ประมาณ 7 วัน) ส่วน peptide hormone เช่น ACTH ละลายน้ำได้ ไม่ต้องมี carrier ถูกย่อยด้วย protease อย่างรวดเร็ว ครึ่งชีวิตเพียงไม่กี่นาที หลักการนี้ยังอธิบายว่าเหตุใดจึงต้องเจาะเลือดวัด ACTH ในหลอดเย็นและปั่นแยกทันที", "reasons": {"X = insulin; Y = cortisol": "สลับกัน — cortisol ต่างหากที่จับ CBG ส่วน insulin เป็น peptide ครึ่งชีวิตสั้น", "X = oxytocin; Y = aldosterone": "สลับกัน — oxytocin เป็น peptide ครึ่งชีวิตไม่กี่นาที ส่วน aldosterone เป็น steroid", "X = glucagon; Y = estradiol": "สลับกัน — glucagon เป็น peptide ส่วน estradiol เป็น steroid ที่จับ SHBG", "X = vasopressin; Y = testosterone": "สลับกัน — vasopressin เป็น peptide ส่วน testosterone จับ SHBG"}, "src": "สร้างใหม่ (อ้างขอบเขต T1-2)", "ref": ""}, {"no": 3, "t": "T2", "topic": "Steroid hormone synthesis", "level": "ประยุกต์", "orig": false, "stem": "A newborn with lipoid congenital adrenal hyperplasia cannot synthesize any adrenal or gonadal steroid hormone. Adrenal cortical cells are markedly enlarged and engorged with cholesterol esters, indicating that cholesterol is available but cannot be used.", "lead": "Which step of steroidogenesis is most likely defective?", "opts": ["Aromatization of the A ring", "21-hydroxylation of progesterone", "Sulfation of dehydroepiandrosterone", "Transfer of cholesterol into the mitochondrion", "De novo synthesis of cholesterol from acetyl-CoA"], "correct": "Transfer of cholesterol into the mitochondrion", "exp": "ขั้นตอนกำหนดอัตรา (rate-limiting step) ของการสร้าง steroid ทุกชนิดคือการขนส่ง cholesterol จาก outer ไป inner mitochondrial membrane โดยโปรตีน StAR (steroidogenic acute regulatory protein) เพื่อให้ CYP11A1 (desmolase/side-chain cleavage) เปลี่ยนเป็น pregnenolone เมื่อ StAR เสีย เซลล์จึงสะสม cholesterol ester จนบวมโต และขาดฮอร์โมนทุกสาย (mineralocorticoid, glucocorticoid, sex steroid) ต่างจาก enzyme block ปลายทางที่ยังมี precursor คั่งเฉพาะบางสาย", "reasons": {"Aromatization of the A ring": "Aromatase เกี่ยวกับการสร้าง estrogen เท่านั้น จะไม่ทำให้ขาดฮอร์โมนทุกสาย", "21-hydroxylation of progesterone": "21-hydroxylase deficiency จะยังสร้าง androgen ได้มาก และมี 17-OHP คั่ง ไม่ใช่ cholesterol คั่ง", "Sulfation of dehydroepiandrosterone": "DHEA sulfotransferase เป็นเพียงการดัดแปลงเพื่อขนส่ง ไม่ใช่ขั้นกำหนดอัตรา", "De novo synthesis of cholesterol from acetyl-CoA": "เซลล์มี cholesterol เหลือเฟืออยู่แล้ว ปัญหาคือใช้ไม่ได้ ไม่ใช่สร้างไม่ได้"}, "src": "สร้างใหม่ (อ้างขอบเขต T1-2)", "ref": ""}, {"no": 4, "t": "T2", "topic": "Mechanism of hormone action", "level": "ทฤษฎี", "orig": false, "stem": "", "lead": "Compared with peptide hormones, steroid hormones characteristically differ in which respect?", "opts": ["They cannot cross the plasma membrane", "They act mainly through cyclic AMP", "They bind intracellular receptors and alter gene transcription", "They circulate mostly in the free unbound form", "They bind receptors on the cell surface"], "correct": "They bind intracellular receptors and alter gene transcription", "exp": "Steroid hormone ละลายในไขมัน จึงผ่านเยื่อหุ้มเซลล์เข้าไปจับ **cytosolic หรือ nuclear receptor** complex ที่ได้จะจับกับ hormone response element บน DNA แล้วเปลี่ยนอัตราการถอดรหัสของยีนเป้าหมาย ผลจึงเกิดช้า (เป็นชั่วโมง) เพราะต้องสร้างโปรตีนใหม่ แต่อยู่ได้นาน เรียกว่า **genomic effect** ตรงข้ามกับ peptide hormone ที่จับตัวรับบนผิวเซลล์และใช้ second messenger ที่มีอยู่แล้ว จึงออกฤทธิ์ภายในวินาทีถึงนาทีแต่หมดฤทธิ์เร็ว", "reasons": {"They cannot cross the plasma membrane": "Steroid ผ่านเยื่อหุ้มเซลล์ได้ดีเพราะละลายในไขมัน", "They act mainly through cyclic AMP": "cAMP เป็น second messenger ของ peptide hormone ที่จับ Gs-coupled receptor", "They circulate mostly in the free unbound form": "Steroid ส่วนใหญ่จับกับ carrier protein เช่น CBG และ SHBG ส่วนที่อิสระมีเพียงเล็กน้อย", "They bind receptors on the cell surface": "การจับตัวรับที่ผิวเซลล์เป็นลักษณะของ peptide hormone"}, "src": "สร้างใหม่ (หัวข้อ T2 ไม่มีไฟล์ formative)", "ref": ""}, {"no": 5, "t": "T3", "topic": "Embryology of the pituitary gland", "level": "ทฤษฎี", "orig": false, "stem": "", "lead": "Which embryological structure gives rise to the neurohypophysis (posterior pituitary gland)?", "opts": ["Neural crest", "Neuroectoderm of the diencephalon", "Mesoderm of the notochord", "Surface ectoderm of the stomodeum", "Rathke's pouch"], "correct": "Neuroectoderm of the diencephalon", "exp": "ต่อมใต้สมองมีต้นกำเนิดสองแหล่ง **Adenohypophysis (ส่วนหน้า)** เกิดจาก Rathke's pouch ซึ่งเป็นการยื่นขึ้นของ ectoderm จากเพดานปากตัวอ่อน (stomodeum) ส่วน **neurohypophysis (ส่วนหลัง)** เกิดจาก **neuroectoderm ของ diencephalon** ที่ยื่นลงมาเป็น infundibulum จึงเป็นส่วนต่อของสมองโดยตรง ไม่มีเซลล์ต่อมของตัวเอง ทำหน้าที่เพียงเก็บและปล่อย ADH กับ oxytocin ที่สร้างจาก supraoptic และ paraventricular nucleus แล้วขนส่งมาตามแอกซอน", "reasons": {"Neural crest": "Neural crest ให้กำเนิด adrenal medulla, C cell และ Schwann cell", "Mesoderm of the notochord": "Notochord ให้กำเนิด nucleus pulposus ของหมอนรองกระดูก", "Surface ectoderm of the stomodeum": "Surface ectoderm ของ stomodeum คือจุดกำเนิดของ Rathke's pouch", "Rathke's pouch": "Rathke's pouch ให้กำเนิด adenohypophysis"}, "src": "สร้างใหม่ (หัวข้อ T3 ไม่มีไฟล์ formative)", "ref": ""}, {"no": 6, "t": "T3", "topic": "Anatomy of the sella and cavernous sinus", "level": "ประยุกต์", "orig": false, "stem": "A 48-year-old man with a pituitary macroadenoma develops double vision. Examination shows ptosis of the right eyelid, a dilated right pupil, and the right eye deviated laterally and downward. Visual fields are full. MRI shows the tumour extending laterally out of the sella.", "lead": "Compression of which structure best explains these findings?", "opts": ["Optic chiasm", "Olfactory tract", "Internal carotid artery", "Ophthalmic division of the trigeminal nerve", "Oculomotor nerve (CN III)"], "correct": "Oculomotor nerve (CN III)", "exp": "เนื้องอกที่ขยายด้านข้าง (lateral extension) จะรุกเข้า cavernous sinus ซึ่งมี CN III, IV, V1, V2 อยู่ที่ผนังด้านข้างและ CN VI กับ internal carotid artery อยู่ภายใน การกด CN III ทำให้เกิด ptosis, pupil dilated (เสีย parasympathetic ที่วิ่งด้านนอกของเส้นประสาท) และตาเบนออกด้านข้าง-ลงล่าง (\"down and out\") ต่างจากการขยายขึ้นบน (suprasellar extension) ที่กด optic chiasm แล้วเกิด bitemporal hemianopia", "reasons": {"Optic chiasm": "การกด optic chiasm ทำให้ลานสายตาผิดปกติแบบ bitemporal hemianopia แต่โจทย์ระบุลานสายตาปกติ", "Olfactory tract": "Olfactory tract อยู่เหนือ cribriform plate เสียแล้วจะมีปัญหาการดมกลิ่น", "Internal carotid artery": "การกด ICA มักไม่ทำให้เกิดกลุ่มอาการนี้ และ ICA มักถูกโอบมากกว่าตีบ", "Ophthalmic division of the trigeminal nerve": "V1 เสียจะชาที่หน้าผาก ไม่ทำให้หนังตาตกหรือรูม่านตาขยาย"}, "src": "สร้างใหม่ (อ้างขอบเขต T3)", "ref": ""}, {"no": 7, "t": "T4", "topic": "Embryology of the parathyroid gland", "level": "ทฤษฎี", "orig": true, "stem": "A 5-week-old female infant is born without inferior parathyroid glands.", "lead": "Which of the following pharyngeal arches is most likely involved?", "opts": ["First", "Second", "Third", "Fourth", "Fifth"], "correct": "Third", "exp": "เซลล์ที่ผนังด้านหลังของ **third pharyngeal pouch** จะเปลี่ยนเป็นเนื้อเยื่อพาราไทรอยด์ในสัปดาห์ที่ 6 แล้วเคลื่อนลงมาพร้อมกับ thymus เข้าสู่ลำคอ ต่อมาจึงแยกตัวออกจาก thymus ไปอยู่ด้านหลัง กลายเป็น **inferior parathyroid gland** ในผู้ใหญ่ จุดที่นิสิตมักสับสนคือ inferior parathyroid มาจาก pouch ที่ 3 (พร้อม thymus) ส่วน superior parathyroid มาจาก pouch ที่ 4 ซึ่งเป็นการ \"สลับตำแหน่ง\" ระหว่างการเคลื่อนย้าย", "reasons": {"First": "First pouch ให้กำเนิด tympanic cavity และ auditory tube", "Second": "Second pouch ให้กำเนิด palatine tonsil", "Fourth": "Fourth pouch ให้กำเนิด superior parathyroid gland และ ultimobranchial body", "Fifth": "Fifth pouch เป็นโครงสร้างที่ไม่สมบูรณ์ มักรวมกับ pouch ที่ 4"}, "src": "ข้อสอบต้นฉบับ - Formative T4 โดย ผศ.ดร.กฤษณา หอมวุฒิวงศ์", "ref": "Embryology at a Glance. Samuel Webster and Rhiannon de Wreede. 2nd ed., p. 81"}, {"no": 8, "t": "T4", "topic": "Cell/tissue structure and function of the thyroid gland", "level": "ทฤษฎี", "orig": true, "stem": "A 50-year-old man, with a history of lung cancer, develops hypercalcemia.", "lead": "Which cells produce agent with similar effects to the hypercalcemia treatment drug?", "opts": ["Chief cells", "Leydig cells", "Oxyphil cells", "Follicular cells", "Parafollicular cells"], "correct": "Parafollicular cells", "exp": "ยาที่ใช้ลดแคลเซียมกลุ่มหนึ่งคือ calcitonin ซึ่งในร่างกายสร้างจาก **parafollicular cell (C cell)** ของต่อมไทรอยด์ เป็นเพปไทด์ 32 กรดอะมิโนที่ออกฤทธิ์ตรงข้ามกับ PTH คือลดระดับแคลเซียมในเลือดอย่างรวดเร็วโดยยับยั้ง osteoclast การหลั่ง calcitonin ถูกควบคุมโดยระดับแคลเซียมในเลือดโดยตรง", "reasons": {"Chief cells": "Chief cells ของต่อมพาราไทรอยด์หลั่ง PTH ซึ่งเพิ่มแคลเซียม", "Leydig cells": "Leydig cells หลั่ง testosterone", "Oxyphil cells": "Oxyphil cells เป็นเซลล์ที่ไม่หลั่งฮอร์โมนในต่อมพาราไทรอยด์", "Follicular cells": "Follicular cells หลั่งฮอร์โมนไทรอยด์"}, "src": "ข้อสอบต้นฉบับ - Formative T4 โดย ผศ.ดร.กฤษณา หอมวุฒิวงศ์", "ref": "Lippincott's Illustrated Q&A Review of Histology, p. 256; First Aid Q&A for the USMLE Step 1, p. 184"}, {"no": 9, "t": "T5", "topic": "Development of the adrenal gland", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which embryologic origins best explain the two major regions of the adrenal gland?", "opts": ["Both cortex and medulla arise from mesoderm", "Both cortex and medulla arise from neural crest", "Cortex from endoderm; medulla from ectoderm", "Cortex from neural crest; medulla from mesoderm", "Cortex from mesoderm; medulla from neural crest"], "correct": "Cortex from mesoderm; medulla from neural crest", "exp": "ต่อมหมวกไตเป็นอวัยวะที่มีต้นกำเนิดสองแหล่งรวมกันในก้อนเดียว **cortex มาจาก mesoderm** (coelomic epithelium บริเวณ urogenital ridge) จึงสร้างฮอร์โมนกลุ่ม steroid ส่วน **medulla มาจาก neural crest** โดยเซลล์ sympathetic precursor เคลื่อนเข้ามาอยู่ตรงกลางแล้วเปลี่ยนเป็น chromaffin cell จึงเปรียบได้กับ postganglionic sympathetic neuron ที่ดัดแปลงมาเป็นเซลล์ต่อมไร้ท่อ หลั่ง catecholamine", "reasons": {"Both cortex and medulla arise from mesoderm": "หากทั้งสองส่วนมาจาก mesoderm จะไม่อธิบายว่าเหตุใด medulla จึงมีคุณสมบัติแบบเซลล์ประสาท", "Both cortex and medulla arise from neural crest": "Cortex ไม่ได้มาจาก neural crest", "Cortex from endoderm; medulla from ectoderm": "ไม่มีส่วนใดของต่อมหมวกไตมาจาก endoderm", "Cortex from neural crest; medulla from mesoderm": "เป็นการสลับที่มาของสองส่วน"}, "src": "ข้อสอบต้นฉบับ - Formative T5 โดย ผศ.ดร.ศุภเตชสิทธิ์ ญาณสิทธินนท์", "ref": ""}, {"no": 10, "t": "T5", "topic": "Histology of the adrenal medulla", "level": "ประยุกต์", "orig": true, "stem": "A newborn infant develops severe hypoglycemia and hypotension. Genetic testing reveals a defect affecting differentiation of cells derived from the neural crest. Histologic examination shows marked reduction of chromaffin cells.", "lead": "Which adrenal function is most directly impaired?", "opts": ["Cortisol synthesis", "Androgen synthesis", "Aldosterone synthesis", "Catecholamine secretion", "Angiotensin II production"], "correct": "Catecholamine secretion", "exp": "Chromaffin cell คือเซลล์ของ **adrenal medulla** ที่มีต้นกำเนิดจาก neural crest ทำหน้าที่สังเคราะห์และหลั่ง catecholamine (epinephrine และ norepinephrine) เมื่อเซลล์กลุ่มนี้ลดลงอย่างมาก การหลั่ง catecholamine จึงบกพร่องโดยตรง อธิบายทั้งภาวะน้ำตาลต่ำ (ขาด epinephrine ที่กระตุ้น glycogenolysis และ gluconeogenesis ซึ่งเป็นกลไก counter-regulation) และความดันต่ำ (ขาดผลต่อ alpha และ beta receptor ของหลอดเลือดและหัวใจ)", "reasons": {"Cortisol synthesis": "Cortisol สร้างที่ zona fasciculata ซึ่งมาจาก mesoderm ไม่ใช่ neural crest", "Androgen synthesis": "Androgen สร้างที่ zona reticularis ซึ่งมาจาก mesoderm", "Aldosterone synthesis": "Aldosterone สร้างที่ zona glomerulosa ซึ่งมาจาก mesoderm", "Angiotensin II production": "Angiotensin II เกิดจากการทำงานของ renin และ ACE ไม่ได้สร้างที่ต่อมหมวกไต"}, "src": "ข้อสอบต้นฉบับ - Formative T5 โดย ผศ.ดร.ศุภเตชสิทธิ์ ญาณสิทธินนท์", "ref": ""}, {"no": 11, "t": "T6", "topic": "Pancreatic islet", "level": "ประยุกต์", "orig": true, "stem": "A 42-year-old man develops progressive hyperglycemia. Histological examination of the pancreas demonstrates selective destruction of cells located predominantly in the central portion of the pancreatic islets.", "lead": "Which hormone production is most likely reduced?", "opts": ["Insulin", "Glucagon", "Somatostatin", "Pancreatic polypeptide", "Ghrelin"], "correct": "Insulin", "exp": "**Beta cell ครองพื้นที่ส่วนกลางของ islet** ส่วนใหญ่ และหลั่ง insulin ซึ่งลดระดับน้ำตาลในเลือด เมื่อเซลล์บริเวณแกนกลางถูกทำลายอย่างจำเพาะ การสร้าง insulin จึงลดลงและเกิดภาวะน้ำตาลในเลือดสูงที่ดำเนินไปเรื่อย ๆ การจดจำผังตำแหน่งเซลล์ใน islet (beta อยู่แกนกลาง, alpha อยู่ขอบนอก, delta กระจายแทรก) ช่วยตอบคำถามลักษณะนี้ได้", "reasons": {"Glucagon": "Alpha cell อยู่บริเวณขอบนอกของ islet หลั่ง glucagon", "Somatostatin": "Delta cell กระจายอยู่ระหว่างเซลล์อื่น หลั่ง somatostatin", "Pancreatic polypeptide": "PP (F) cell พบมากที่ส่วนหัวของตับอ่อน", "Ghrelin": "Ghrelin สร้างจากเซลล์ในกระเพาะอาหารเป็นหลัก (มี epsilon cell ใน islet เพียงเล็กน้อย)"}, "src": "ข้อสอบต้นฉบับ - Formative T6 โดย อ.ดร.ชูวดี ปริวัฒนากุล", "ref": ""}, {"no": 12, "t": "T6", "topic": "Pineal gland", "level": "ทฤษฎี", "orig": true, "stem": "A pathology resident identifies the principal secretory cells of the pineal gland.", "lead": "Which cell type produces melatonin?", "opts": ["Astrocytes", "Pinealocytes", "Oligodendrocytes", "Microglia", "Ependymal cells"], "correct": "Pinealocytes", "exp": "**Pinealocyte** เป็นเซลล์หลักของต่อมไพเนียล ทำหน้าที่สังเคราะห์และหลั่ง melatonin จาก serotonin โดยมีเอนไซม์ AANAT เป็นตัวกำหนดอัตรา ลักษณะทางจุลกายวิภาคคือเซลล์ขนาดใหญ่ ติดสีจาง นิวเคลียสเด่น และมีแขนงยื่นไปยังหลอดเลือดฝอยข้างเคียง การหลั่งเพิ่มขึ้นในเวลากลางคืนและถูกยับยั้งด้วยแสง ทำหน้าที่ควบคุมจังหวะการหลับตื่น", "reasons": {"Astrocytes": "Astrocyte เป็น glial cell ที่พบแทรกในต่อมไพเนียลแต่ไม่ได้สร้าง melatonin", "Oligodendrocytes": "Oligodendrocyte สร้าง myelin ในระบบประสาทส่วนกลาง", "Microglia": "Microglia เป็นเซลล์ภูมิคุ้มกันประจำที่ของระบบประสาท", "Ependymal cells": "Ependymal cell บุโพรงสมองและช่วยสร้างน้ำหล่อสมองไขสันหลัง"}, "src": "ข้อสอบต้นฉบับ - Formative T6 โดย อ.ดร.ชูวดี ปริวัฒนากุล", "ref": ""}, {"no": 13, "t": "T7", "topic": "Hypothalamic-pituitary negative feedback", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which axis of the following is NOT regulated by hypothalamic-pituitary negative feedback?", "opts": ["Cortisol on the CRH-ACTH", "Renin-angiotensin-aldosterone", "Thyroid hormones on TRH-TSH", "Gonadal steroids on the GnRH-LH/FSH", "IGF-1 on the growth hormone-releasing hormone (GHRH)-GH"], "correct": "Renin-angiotensin-aldosterone", "exp": "แกน RAAS ถูกควบคุมโดย **ปัจจัยที่ไต** เป็นหลัก ได้แก่ ความดันเลือดที่ไปเลี้ยงไต ปริมาณโซเดียมที่ macula densa และการกระตุ้นของระบบประสาทซิมพาเทติก รวมทั้งระดับโพแทสเซียมที่กระตุ้น zona glomerulosa โดยตรง จึงไม่ได้อยู่ภายใต้การป้อนกลับของ hypothalamus และ pituitary (ACTH มีผลต่อ aldosterone เพียงเล็กน้อยและไม่ใช่ตัวควบคุมหลัก) ความสำคัญทางคลินิกคือ ในภาวะ secondary adrenal insufficiency จากการขาด ACTH ผู้ป่วยจึงยังมี aldosterone ปกติและโพแทสเซียมไม่สูง", "reasons": {"Cortisol on the CRH-ACTH": "Cortisol ป้อนกลับยับยั้งทั้ง CRH ที่ hypothalamus และ ACTH ที่ต่อมใต้สมองส่วนหน้า", "Thyroid hormones on TRH-TSH": "T3 และ T4 ป้อนกลับยับยั้ง TRH และ TSH", "Gonadal steroids on the GnRH-LH/FSH": "Estrogen, progesterone และ testosterone ป้อนกลับควบคุม GnRH และ LH/FSH", "IGF-1 on the growth hormone-releasing hormone (GHRH)-GH": "IGF-1 ป้อนกลับยับยั้ง GH ทั้งโดยลด GHRH และเพิ่ม somatostatin"}, "src": "ข้อสอบต้นฉบับ - Formative T7 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 14, "t": "T7", "topic": "Hypothalamic-pituitary axis and feedback", "level": "ประยุกต์", "orig": false, "stem": "A 68-year-old man with metastatic prostate cancer is started on a long-acting GnRH agonist given as a continuous-release depot. During the first 10 days his serum testosterone rises and his bone pain worsens, but by 4 weeks his testosterone has fallen to castrate levels and remains there.", "lead": "Which mechanism best explains the sustained fall in testosterone?", "opts": ["Downregulation of pituitary GnRH receptors", "Competitive blockade of the GnRH receptor", "Increased hepatic clearance of testosterone", "Inhibition of 5-alpha-reductase in the prostate", "Direct destruction of Leydig cells"], "correct": "Downregulation of pituitary GnRH receptors", "exp": "การหลั่ง GnRH ตามธรรมชาติเป็นแบบ **pulsatile** ซึ่งจำเป็นต่อการคง GnRH receptor บน gonadotroph เมื่อให้ agonist แบบต่อเนื่อง ระยะแรกจะกระตุ้นการหลั่ง LH/FSH ทำให้ testosterone พุ่งขึ้น (flare) แต่หลังจากนั้น receptor จะถูก internalize และ desensitize ทำให้ LH/FSH ลดลงจน testosterone ตกถึงระดับ castrate นี่เป็นตัวอย่างสำคัญของ receptor downregulation ที่ใช้ประโยชน์ทางคลินิก", "reasons": {"Competitive blockade of the GnRH receptor": "การบล็อกแบบแข่งขันเป็นกลไกของ GnRH antagonist (เช่น ganirelix, degarelix) ซึ่งไม่มีระยะ flare", "Increased hepatic clearance of testosterone": "อัตราการกำจัด testosterone ไม่ได้เปลี่ยนแปลง", "Inhibition of 5-alpha-reductase in the prostate": "5-alpha-reductase inhibitor ลด DHT แต่ testosterone ไม่ตกถึง castrate level", "Direct destruction of Leydig cells": "GnRH agonist ไม่ได้ทำลาย Leydig cell โดยตรง"}, "src": "สร้างใหม่ (อ้างขอบเขต T7)", "ref": ""}, {"no": 15, "t": "T8", "topic": "Direct actions of growth hormone", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which of the following is a direct effect of growth hormone, not mediated by IGF-1?", "opts": ["Lipolysis in adipose tissue", "Chondrogenesis in growth plate", "Bone elongation at epiphyseal plate", "Increased protein synthesis in muscle", "Organomegaly (e.g., heart, liver, kidney)"], "correct": "Lipolysis in adipose tissue", "exp": "GH ออกฤทธิ์สองทาง ทางแรกคือ **ฤทธิ์โดยตรง (direct/anti-insulin effect)** ที่เนื้อเยื่อไขมันและตับ ได้แก่ การกระตุ้น hormone-sensitive lipase ทำให้เกิด **lipolysis** ปล่อยกรดไขมันอิสระออกมาใช้เป็นพลังงาน ลดการนำกลูโคสเข้าเซลล์ และเพิ่ม hepatic glucose output ทางที่สองคือฤทธิ์ที่ผ่าน IGF-1 ซึ่งสร้างที่ตับ และรับผิดชอบผลด้านการเจริญเติบโตทั้งหมด การแยกสองกลุ่มนี้ให้ได้เป็นหัวใจของหัวข้อนี้", "reasons": {"Chondrogenesis in growth plate": "Chondrogenesis ที่แผ่นการเจริญเป็นผลผ่าน IGF-1", "Bone elongation at epiphyseal plate": "การยืดยาวของกระดูกที่ epiphyseal plate เป็นผลผ่าน IGF-1", "Increased protein synthesis in muscle": "การเพิ่มการสังเคราะห์โปรตีนในกล้ามเนื้อเป็นผลผ่าน IGF-1", "Organomegaly (e.g., heart, liver, kidney)": "อวัยวะภายในโตเป็นผลผ่าน IGF-1"}, "src": "ข้อสอบต้นฉบับ - Formative T8-9 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 16, "t": "T8", "topic": "Physiology of prolactin", "level": "ประยุกต์", "orig": true, "stem": "A 28-year-old postpartum woman is breastfeeding her newborn.", "lead": "Which of the following best explains the mechanism by which suckling stimulates milk production?", "opts": ["Stimulation of hypothalamic TRH release, enhancing prolactin secretion", "Direct stimulation of oxytocin release, inhibiting prolactin", "Increased cortisol secretion, promoting lactogenesis", "Increased dopamine release from hypothalamus", "Inhibition of anterior pituitary prolactin secretion"], "correct": "Stimulation of hypothalamic TRH release, enhancing prolactin secretion", "exp": "การดูดนมส่งสัญญาณประสาทจากหัวนมขึ้นไปที่ hypothalamus ทำให้การหลั่ง prolactin เพิ่มขึ้นสองทางที่เสริมกัน คือ **ลดการหลั่ง dopamine** ซึ่งเป็นตัวยับยั้ง prolactin ตามธรรมชาติ และ **เพิ่มปัจจัยกระตุ้นได้แก่ TRH** ซึ่งกระตุ้น lactotroph ให้หลั่ง prolactin โดยตรง ในบรรดาตัวเลือกที่ให้ ข้อ A จึงเป็นกลไกที่ถูกต้อง หลักการเดียวกันนี้อธิบายว่าเหตุใดผู้ป่วย primary hypothyroidism ที่มี TRH สูงจึงมี prolactin สูงและมีน้ำนมไหลได้", "reasons": {"Direct stimulation of oxytocin release, inhibiting prolactin": "Oxytocin ทำหน้าที่ขับน้ำนม (milk ejection) ไม่ได้ยับยั้ง prolactin", "Increased cortisol secretion, promoting lactogenesis": "Cortisol มีบทบาทเสริมในการพัฒนาเต้านม แต่ไม่ใช่กลไกที่การดูดนมกระตุ้นการสร้างน้ำนม", "Increased dopamine release from hypothalamus": "การดูดนม **ลด** การหลั่ง dopamine หากเพิ่มขึ้น prolactin จะถูกกดลง", "Inhibition of anterior pituitary prolactin secretion": "การดูดนมกระตุ้น ไม่ใช่ยับยั้ง การหลั่ง prolactin"}, "src": "ข้อสอบต้นฉบับ - Formative T8-9 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 17, "t": "T9", "topic": "Cardiovascular effects of thyroid hormone", "level": "ประยุกต์", "orig": true, "stem": "A 32-year-old woman presents with palpitations, anxiety, and heat intolerance. On exam, she has tachycardia and warm, moist skin. Laboratory findings reveal elevated T3 and T4 with suppressed TSH.", "lead": "Which of the following mechanisms best explains her increased cardiac output?", "opts": ["Decreased systemic vascular resistance via alpha-1 adrenergic blockade", "Increased beta-1 adrenergic receptor expression in myocardium", "Increased preload due to renal sodium retention", "Increased coronary artery vasoconstriction", "Direct stimulation of the vagus nerve"], "correct": "Increased beta-1 adrenergic receptor expression in myocardium", "exp": "ฮอร์โมนไทรอยด์เพิ่มการแสดงออกของยีนที่ควบคุม **beta-1 adrenergic receptor** ในกล้ามเนื้อหัวใจ ทำให้หัวใจไวต่อ catecholamine มากขึ้นทั้งที่ระดับ catecholamine ในเลือดปกติ ผลคืออัตราการเต้นเพิ่มขึ้น (chronotropic) และแรงบีบตัวเพิ่มขึ้น (inotropic) cardiac output จึงสูงขึ้น นอกจากนี้ยังเพิ่ม myosin heavy chain สายที่ทำงานเร็วและ Ca-ATPase ของ sarcoplasmic reticulum กลไกนี้เป็นเหตุผลที่ **beta-blocker เช่น propranolol** ช่วยควบคุมอาการทางหัวใจใน thyrotoxicosis ได้อย่างรวดเร็ว", "reasons": {"Decreased systemic vascular resistance via alpha-1 adrenergic blockade": "ฮอร์โมนไทรอยด์ลดแรงต้านหลอดเลือดจริงแต่เกิดจากการขยายหลอดเลือดจากเมแทบอลิซึมที่เพิ่มขึ้น ไม่ใช่การปิดกั้น alpha-1", "Increased preload due to renal sodium retention": "ปริมาตรเลือดเพิ่มขึ้นได้เล็กน้อยแต่ไม่ใช่กลไกหลัก", "Increased coronary artery vasoconstriction": "การหดตัวของหลอดเลือดหัวใจจะลด ไม่ใช่เพิ่ม cardiac output", "Direct stimulation of the vagus nerve": "การกระตุ้น vagus จะทำให้หัวใจเต้นช้าลง ซึ่งตรงข้ามกับอาการของผู้ป่วย"}, "src": "ข้อสอบต้นฉบับ - Formative T8-9 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 18, "t": "T9", "topic": "Physiology of parathyroid hormone", "level": "ประยุกต์", "orig": true, "stem": "A 45-year-old woman has hypocalcemia after thyroid surgery.", "lead": "Which of the following is the most likely mechanism due to parathyroid hormone deficiency?", "opts": ["Increased osteoclast activity in bone", "Decreased renal phosphate excretion", "Increased intestinal calcium absorption", "Enhanced 1-alpha hydroxylase activity in the kidney", "Decreased calcium reabsorption in the distal tubule"], "correct": "Decreased calcium reabsorption in the distal tubule", "exp": "PTH เพิ่มการดูดกลับแคลเซียมที่ **distal convoluted tubule** เมื่อขาด PTH จากการที่ต่อมพาราไทรอยด์ถูกตัดหรือช้ำระหว่างผ่าตัดไทรอยด์ ไตจะสูญเสียแคลเซียมทางปัสสาวะมากขึ้น ร่วมกับการสลายกระดูกลดลงและการสร้าง calcitriol ลดลง จึงเกิดภาวะแคลเซียมในเลือดต่ำภายในไม่กี่ชั่วโมงถึงวัน อาการที่ต้องเฝ้าระวังหลังผ่าตัดคือชารอบปาก มือจีบเกร็ง Chvostek และ Trousseau sign", "reasons": {"Increased osteoclast activity in bone": "การขาด PTH ทำให้ osteoclast ทำงาน **ลดลง** ไม่ใช่เพิ่มขึ้น", "Decreased renal phosphate excretion": "ข้อนี้เป็นผลจริงของการขาด PTH และอธิบายภาวะฟอสเฟตสูง แต่ไม่ใช่กลไกที่ทำให้แคลเซียมต่ำตามที่โจทย์ถาม", "Increased intestinal calcium absorption": "การขาด PTH ทำให้การดูดซึมแคลเซียมที่ลำไส้ **ลดลง** เพราะ calcitriol ลดลง", "Enhanced 1-alpha hydroxylase activity in the kidney": "PTH เป็นตัวกระตุ้น 1-alpha hydroxylase เมื่อขาด PTH เอนไซม์นี้จะทำงานลดลง"}, "src": "ข้อสอบต้นฉบับ - Formative T8-9 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 19, "t": "T10", "topic": "Activation of vitamin D", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "The active form of vitamin D [1,25-(OH)2D3] is formed in which organ by the action of 1-alpha-hydroxylase?", "opts": ["Skin", "Liver", "Kidney", "Intestine", "Bone"], "correct": "Kidney", "exp": "วิตามินดีต้องผ่านการไฮดรอกซิเลตสองขั้น ขั้นแรกที่ **ตับ** โดย 25-hydroxylase ได้ 25-hydroxyvitamin D ซึ่งเป็นรูปที่ใช้วัดสถานะวิตามินดีในเลือด ขั้นที่สองที่ **ไต** ที่ proximal tubule โดย **1-alpha-hydroxylase (CYP27B1)** ได้ 1,25-dihydroxyvitamin D หรือ calcitriol ซึ่งเป็นรูปที่ออกฤทธิ์ เอนไซม์ขั้นที่สองนี้ถูกกระตุ้นโดย PTH และภาวะฟอสเฟตต่ำ และถูกยับยั้งโดย FGF23 และ calcitriol เอง ความสำคัญทางคลินิกคือผู้ป่วยโรคไตเรื้อรังจะขาด calcitriol จึงต้องให้วิตามินดีรูปที่ออกฤทธิ์แล้ว", "reasons": {"Skin": "ที่ผิวหนัง แสง UVB เปลี่ยน 7-dehydrocholesterol เป็น cholecalciferol ซึ่งยังไม่มีฤทธิ์", "Liver": "ตับทำหน้าที่ 25-hydroxylation เป็นขั้นแรก", "Intestine": "ลำไส้เป็นอวัยวะเป้าหมาย ไม่ใช่ที่กระตุ้นวิตามินดี", "Bone": "กระดูกเป็นอวัยวะเป้าหมายของ calcitriol เช่นกัน"}, "src": "ข้อสอบต้นฉบับ - Formative T10 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 20, "t": "T10", "topic": "Ionized calcium and acid-base balance", "level": "ประยุกต์", "orig": false, "stem": "A 22-year-old woman is brought to the emergency department after a panic attack. She is hyperventilating and complains of tingling around the mouth and in both hands, followed by painful carpal spasm. Arterial blood gas shows pH 7.55 and PaCO2 24 mmHg. Serum total calcium is 9.4 mg/dL (normal) and albumin is normal.", "lead": "Which mechanism best explains her symptoms?", "opts": ["Excess secretion of calcitonin", "Acute hyperphosphataemia", "Acute severe hypomagnesaemia", "Alkalaemia lowering the ionized calcium fraction", "Acute suppression of parathyroid hormone"], "correct": "Alkalaemia lowering the ionized calcium fraction", "exp": "แคลเซียมในเลือดราวร้อยละ 40 จับกับอัลบูมิน โดยการจับขึ้นกับ pH เมื่อ **respiratory alkalosis** จากการหายใจเร็ว ไฮโดรเจนอิออนจะหลุดจากหมู่คาร์บอกซิลของอัลบูมิน เปิดตำแหน่งประจุลบให้แคลเซียมจับมากขึ้น **ionized calcium จึงลดลงทั้งที่ total calcium ปกติ** ทำให้ประสาทและกล้ามเนื้อไวเกิน เกิดชารอบปาก มือจีบเกร็ง Chvostek และ Trousseau sign ให้ผลบวก การรักษาคือทำให้หายใจช้าลง ไม่ใช่ให้แคลเซียม จุดสอบสำคัญคือ **ต้องแปลผลแคลเซียมโดยดู albumin และ pH เสมอ**", "reasons": {"Excess secretion of calcitonin": "Calcitonin มีบทบาทน้อยมากในผู้ใหญ่ และไม่ได้หลั่งจากการหายใจเร็ว", "Acute hyperphosphataemia": "ไม่มีเหตุให้ฟอสเฟตสูงเฉียบพลันในผู้ป่วยรายนี้", "Acute severe hypomagnesaemia": "อาการจาก hypomagnesaemia มักเกิดช้าและมีบริบทของภาวะทุพโภชนาการหรือยา", "Acute suppression of parathyroid hormone": "PTH ที่แท้จริงจะถูกกระตุ้นเมื่อ ionized calcium ตก ไม่ใช่ถูกกด"}, "src": "สร้างใหม่ (อ้างขอบเขต T10)", "ref": ""}, {"no": 21, "t": "T11", "topic": "Posterior pituitary hormones in lactation", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "During breastfeeding, which hormone is responsible for milk production, and which hormone is responsible for milk ejection?", "opts": ["Prolactin -> production; Oxytocin -> ejection", "Oxytocin -> production; Prolactin -> ejection", "Prolactin -> production; ADH -> ejection", "Oxytocin -> production; ADH -> ejection", "Estrogen -> production; Oxytocin -> ejection"], "correct": "Prolactin -> production; Oxytocin -> ejection", "exp": "**Prolactin** จากต่อมใต้สมองส่วนหน้ากระตุ้นเซลล์เยื่อบุถุงน้ำนมให้สังเคราะห์โปรตีนและแลคโตส คือทำหน้าที่ **สร้าง** น้ำนม ส่วน **oxytocin** จากต่อมใต้สมองส่วนหลังทำให้ **myoepithelial cell** ที่ล้อมรอบถุงน้ำนมหดตัว บีบน้ำนมออกสู่ท่อ คือทำหน้าที่ **ขับ** น้ำนม (milk let-down) การแยกบทบาทนี้อธิบายภาวะทางคลินิกได้ เช่น ผู้ที่มี prolactin ปกติแต่ oxytocin บกพร่อง จะสร้างน้ำนมได้แต่น้ำนมไม่ไหล", "reasons": {"Oxytocin -> production; Prolactin -> ejection": "เป็นการสลับหน้าที่ของฮอร์โมนทั้งสอง", "Prolactin -> production; ADH -> ejection": "ADH ออกฤทธิ์ที่ไตและหลอดเลือด ไม่เกี่ยวกับการขับน้ำนม", "Oxytocin -> production; ADH -> ejection": "ผิดทั้งสองส่วน", "Estrogen -> production; Oxytocin -> ejection": "Estrogen ช่วยพัฒนาท่อน้ำนมในระยะตั้งครรภ์ แต่ระดับที่สูงกลับยับยั้งการสร้างน้ำนม"}, "src": "ข้อสอบต้นฉบับ - Formative T11 โดย ผศ.ดร.ขวัญจิต อภัยจิตต์", "ref": ""}, {"no": 22, "t": "T11", "topic": "ADH action on the kidney", "level": "ประยุกต์", "orig": false, "stem": "A 42-year-old man treated with lithium for 9 years reports passing more than 5 litres of dilute urine daily and constant thirst. Serum sodium is 149 mmol/L, plasma osmolality 305 mOsm/kg and urine osmolality 95 mOsm/kg. Plasma ADH is elevated. After administration of desmopressin, urine osmolality rises only to 110 mOsm/kg.", "lead": "Which mechanism best explains these findings?", "opts": ["Excessive voluntary water intake", "Destruction of the posterior pituitary gland", "Impaired V2 signalling and aquaporin-2 expression", "Resetting of the hypothalamic osmoreceptors", "Failure of ADH synthesis in the supraoptic nucleus"], "correct": "Impaired V2 signalling and aquaporin-2 expression", "exp": "ปัสสาวะเจือจางมากทั้งที่ plasma osmolality สูงและ **ADH ในเลือดสูง** ร่วมกับ **ไม่ตอบสนองต่อ desmopressin** บ่งชี้ nephrogenic diabetes insipidus ลิเทียมเข้าสู่ principal cell ทาง ENaC และรบกวน V2 receptor–Gs–cAMP pathway ทำให้การแสดงออกและการนำ aquaporin-2 ไปสอดที่ apical membrane ลดลง ไตจึงดูดน้ำกลับไม่ได้ ต่างจาก central DI ที่ ADH ต่ำและตอบสนองต่อ desmopressin อย่างชัดเจน", "reasons": {"Excessive voluntary water intake": "Primary polydipsia จะมี sodium ต่ำหรือค่อนต่ำ ไม่ใช่ 149 mmol/L", "Destruction of the posterior pituitary gland": "หากทำลาย posterior pituitary จะเป็น central DI ซึ่ง ADH ต่ำและตอบสนองต่อ desmopressin", "Resetting of the hypothalamic osmoreceptors": "Osmoreceptor reset จะเปลี่ยน threshold ของความกระหายและ ADH ไม่ทำให้ไม่ตอบสนองต่อ desmopressin", "Failure of ADH synthesis in the supraoptic nucleus": "หากสร้าง ADH ไม่ได้จะเป็น central DI ซึ่งระดับ ADH ต่ำ แต่ผู้ป่วยรายนี้ ADH สูง"}, "src": "สร้างใหม่ (อ้างขอบเขต T11)", "ref": ""}, {"no": 23, "t": "T12", "topic": "Pituitary apoplexy", "level": "ประยุกต์", "orig": false, "stem": "A 55-year-old man with a known pituitary macroadenoma develops sudden severe headache, vomiting, drooping of the right eyelid and reduced vision. Blood pressure is 82/50 mmHg and does not improve after 2 litres of intravenous saline. Serum sodium is 128 mmol/L and glucose is 54 mg/dL. CT shows haemorrhage within the sellar mass.", "lead": "Deficiency of which hormone is the most immediately life-threatening in this patient?", "opts": ["Prolactin", "Growth hormone", "Luteinizing hormone", "Thyroid-stimulating hormone", "Adrenocorticotropic hormone"], "correct": "Adrenocorticotropic hormone", "exp": "Pituitary apoplexy คือเลือดออกหรือเนื้อตายเฉียบพลันในเนื้องอกต่อมใต้สมอง ทำให้เกิดปวดศีรษะรุนแรงทันที ตามัว กล้ามเนื้อตาอ่อนแรง และ **acute secondary adrenal insufficiency** จากการขาด ACTH ซึ่งอธิบายความดันต่ำที่ไม่ตอบสนองต่อสารน้ำ โซเดียมต่ำ และน้ำตาลต่ำ เป็นภาวะที่ทำให้เสียชีวิตได้ภายในไม่กี่ชั่วโมง การรักษาคือให้ **hydrocortisone ทางหลอดเลือดดำทันที** ก่อนผลตรวจฮอร์โมนจะกลับมา ส่วนการขาด TSH, LH/FSH และ GH ก่อผลตามมาในหน่วยวันถึงเดือน", "reasons": {"Prolactin": "การขาด prolactin ทำให้ให้นมบุตรไม่ได้เท่านั้น ไม่อันตรายเฉียบพลัน", "Growth hormone": "การขาด GH ในผู้ใหญ่ไม่ก่ออันตรายเฉียบพลัน", "Luteinizing hormone": "การขาด LH ทำให้ hypogonadism ซึ่งเป็นผลระยะยาว", "Thyroid-stimulating hormone": "การขาด TSH ทำให้ hypothyroidism ที่ค่อยเป็นค่อยไปเพราะ T4 มีครึ่งชีวิตราว 7 วัน"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 24, "t": "T12", "topic": "Hypophysitis", "level": "ประยุกต์", "orig": false, "stem": "A 58-year-old man receiving ipilimumab for metastatic melanoma develops headache, profound fatigue and nausea 8 weeks after starting therapy. Serum sodium is 127 mmol/L, morning cortisol 2.1 mcg/dL, ACTH 4 pg/mL (low), TSH 0.2 mU/L with free T4 0.5 ng/dL, and testosterone is low. MRI shows diffuse symmetrical enlargement of the pituitary gland with stalk thickening and no discrete adenoma.", "lead": "Which is the most likely diagnosis?", "opts": ["Sheehan syndrome", "Craniopharyngioma", "Checkpoint inhibitor-induced hypophysitis", "Metastasis to the pituitary gland", "Pituitary macroadenoma"], "correct": "Checkpoint inhibitor-induced hypophysitis", "exp": "ยากลุ่ม checkpoint inhibitor โดยเฉพาะ anti-CTLA-4 (ipilimumab) ทำให้เกิด autoimmune hypophysitis ได้บ่อย ปรากฏใน 6-12 สัปดาห์แรก ลักษณะเด่นคือ **ต่อมใต้สมองโตแบบสมมาตรพร้อมก้านต่อมหนา ไม่มีก้อนชัดเจน** ร่วมกับการขาดฮอร์โมนหลายชนิดพร้อมกัน โดยเฉพาะ ACTH และ TSH แบบ central (ฮอร์โมนต้นทางต่ำพร้อมฮอร์โมนปลายทางต่ำ) การรักษาคือให้ glucocorticoid ทดแทนและมักต้องให้ตลอดชีวิตแม้หยุดยาแล้ว", "reasons": {"Sheehan syndrome": "Sheehan syndrome เกิดหลังตกเลือดหลังคลอดในผู้หญิง ไม่ใช่บริบทนี้", "Craniopharyngioma": "Craniopharyngioma เป็นก้อนแบบมีถุงน้ำและหินปูน มักพบในเด็กหรือผู้ใหญ่ตอนปลาย", "Metastasis to the pituitary gland": "Metastasis มักลุกลาม posterior lobe ทำให้เกิด diabetes insipidus เป็นอาการเด่น", "Pituitary macroadenoma": "Macroadenoma จะเห็นเป็นก้อนแยกชัด ไม่ใช่ต่อมโตสมมาตรพร้อมก้านหนา"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 25, "t": "T13", "topic": "Subclinical hypothyroidism", "level": "ประยุกต์", "orig": false, "stem": "A 50-year-old asymptomatic woman has a screening TSH of 8.4 mU/L with a free T4 of 1.1 ng/dL (normal) on two occasions 8 weeks apart. Anti-thyroid peroxidase antibodies are strongly positive. She has no goitre and is not pregnant.", "lead": "Which statement best describes her condition?", "opts": ["Overt primary hypothyroidism", "Central (secondary) hypothyroidism", "Subclinical hypothyroidism at risk of progression", "Non-thyroidal illness (euthyroid sick) syndrome", "Generalized resistance to thyroid hormone"], "correct": "Subclinical hypothyroidism at risk of progression", "exp": "Subclinical hypothyroidism นิยามด้วย **TSH สูงร่วมกับ free T4 ปกติ** สะท้อนว่าต่อมไทรอยด์ยังชดเชยได้แต่ต้องอาศัย TSH ที่สูงขึ้น การมี anti-TPO เป็นบวกแรงบ่งชี้ Hashimoto thyroiditis และเพิ่มอัตราการดำเนินไปเป็น overt hypothyroidism อย่างมีนัยสำคัญ (ราวร้อยละ 4-5 ต่อปี เทียบกับร้อยละ 2-3 เมื่อไม่มีแอนติบอดี) จึงต้องติดตาม TSH เป็นระยะ และพิจารณาให้ levothyroxine เมื่อ TSH สูงกว่า 10 mU/L มีอาการ หรือกำลังตั้งครรภ์", "reasons": {"Overt primary hypothyroidism": "Overt hypothyroidism ต้องมี free T4 ต่ำร่วมด้วย", "Central (secondary) hypothyroidism": "Central hypothyroidism มี TSH ต่ำหรือปกติ พร้อม free T4 ต่ำ", "Non-thyroidal illness (euthyroid sick) syndrome": "Euthyroid sick syndrome พบในผู้ป่วยหนัก มี T3 ต่ำและ rT3 สูง", "Generalized resistance to thyroid hormone": "Thyroid hormone resistance มี free T4 สูงพร้อม TSH ไม่ถูกกด"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 26, "t": "T13", "topic": "Pathophysiology of myxoedema", "level": "ประยุกต์", "orig": false, "stem": "A 62-year-old woman with untreated hypothyroidism has puffy eyelids, swollen lips and thickened doughy skin over the shins. The swelling does not pit on firm pressure. Serum albumin, renal function and echocardiography are normal, and there is no evidence of venous or lymphatic obstruction.", "lead": "Which mechanism best explains this type of oedema?", "opts": ["Dermal accumulation of glycosaminoglycans", "Increased capillary hydrostatic pressure", "Obstruction of dermal lymphatic channels", "Aldosterone-mediated sodium and water retention", "Reduced plasma oncotic pressure"], "correct": "Dermal accumulation of glycosaminoglycans", "exp": "Myxoedema เกิดจากการสะสมของ glycosaminoglycan โดยเฉพาะ hyaluronic acid และ chondroitin sulphate ในชั้นหนังแท้ เพราะการขาดฮอร์โมนไทรอยด์ทำให้ fibroblast สร้าง GAG มากขึ้นและย่อยสลายน้อยลง GAG มีคุณสมบัติชอบน้ำสูง ดึงน้ำมาจับในรูปเจล จึงเกิดบวมที่ **กดไม่บุ๋ม (non-pitting)** ต่างจากบวมจากความดัน hydrostatic หรือ oncotic ที่กดบุ๋ม กลไกเดียวกันนี้อธิบาย pretibial myxoedema ใน Graves disease ซึ่งมี fibroblast ถูกกระตุ้นด้วย TSH-receptor antibody", "reasons": {"Increased capillary hydrostatic pressure": "หัวใจและไตปกติ อีกทั้งจะทำให้กดบุ๋มเช่นกัน", "Obstruction of dermal lymphatic channels": "โจทย์ระบุว่าไม่มีการอุดกั้นทางน้ำเหลือง", "Aldosterone-mediated sodium and water retention": "Hypothyroidism ไม่ได้กระตุ้น aldosterone และภาวะคั่งเกลือจะทำให้กดบุ๋ม", "Reduced plasma oncotic pressure": "อัลบูมินปกติ และภาวะนี้ทำให้กดบุ๋ม"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 27, "t": "T14", "topic": "Graves orbitopathy", "level": "ประยุกต์", "orig": false, "stem": "A 34-year-old woman with Graves disease has bilateral proptosis, periorbital swelling and restricted upward gaze. Orbital CT shows marked enlargement of the extraocular muscle bellies with sparing of the tendons and an increase in orbital fat. Her exophthalmos has continued to progress even after she became biochemically euthyroid on methimazole.", "lead": "Which mechanism best explains the orbital changes?", "opts": ["Direct toxicity of T3 on extraocular muscle fibres", "Thrombosis of the superior ophthalmic vein", "Metastatic deposits within the orbital fat", "IgG4-related sclerosing inflammation of the orbit", "TSH-receptor antibodies activating orbital fibroblasts"], "correct": "TSH-receptor antibodies activating orbital fibroblasts", "exp": "Orbital fibroblast แสดง TSH receptor และ IGF-1 receptor เมื่อ TSH-receptor autoantibody (TRAb) จับ จะกระตุ้นให้สร้าง glycosaminoglycan ที่ดึงน้ำ และเหนี่ยวนำให้บางส่วนกลายเป็น adipocyte ปริมาตรในเบ้าตาที่คงที่จึงเพิ่มขึ้น ดันลูกตายื่นและกล้ามเนื้อบวมโดย **เว้นส่วนเอ็นยึด** ซึ่งเป็นลักษณะจำเพาะ กระบวนการนี้เป็น autoimmune ที่แยกจากระดับฮอร์โมนไทรอยด์ อาการทางตาจึงดำเนินต่อได้แม้ควบคุมฮอร์โมนได้แล้ว และเป็นเหตุผลที่ต้องระวังการรักษาด้วย radioactive iodine ซึ่งอาจทำให้ตาแย่ลง", "reasons": {"Direct toxicity of T3 on extraocular muscle fibres": "T3 ไม่ได้เป็นพิษต่อกล้ามเนื้อตาโดยตรง และภาพ CT ไม่เข้ากับกลไกนี้", "Thrombosis of the superior ophthalmic vein": "Cavernous sinus thrombosis เกิดเฉียบพลัน มีไข้ ปวด และเส้นประสาทสมองผิดปกติ", "Metastatic deposits within the orbital fat": "ไม่มีบริบทของมะเร็ง และการกระจายมักเป็นก้อนข้างเดียว", "IgG4-related sclerosing inflammation of the orbit": "IgG4-related disease เป็นการวินิจฉัยแยกโรคที่พบน้อยและไม่สัมพันธ์กับ Graves"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 28, "t": "T14", "topic": "Thyrotoxicosis with low radioiodine uptake", "level": "ประยุกต์", "orig": false, "stem": "A 32-year-old woman has a 10-day history of fever, malaise and a painful, exquisitely tender thyroid gland 3 weeks after an upper respiratory tract infection. She has palpitations and heat intolerance. Free T4 is elevated, TSH is suppressed, ESR is 92 mm/h, and the 24-hour radioiodine uptake is 1% (normal 10-30%). There is no ophthalmopathy.", "lead": "Which mechanism best explains her thyrotoxicosis?", "opts": ["An autonomously functioning toxic nodule", "Release of preformed hormone from damaged follicles", "Excess iodine driving new hormone synthesis", "Secretion of TSH from a pituitary adenoma", "Stimulation of the TSH receptor by autoantibody"], "correct": "Release of preformed hormone from damaged follicles", "exp": "Subacute granulomatous (de Quervain) thyroiditis มักตามหลังการติดเชื้อไวรัส ลักษณะจำเพาะคือ **ต่อมเจ็บมาก ESR สูงมาก และ radioiodine uptake ต่ำ** การอักเสบทำลาย follicle ทำให้ฮอร์โมนที่สะสมไว้ในคอลลอยด์รั่วออกสู่กระแสเลือด จึงเป็น thyrotoxicosis **โดยไม่มีการสร้างใหม่** ต่อมจึงไม่จับไอโอดีน ผลคือยาต้านไทรอยด์ไม่ได้ผล การรักษาเป็นการประคับประคองด้วย NSAIDs หรือ glucocorticoid ร่วมกับ beta-blocker และโรคดำเนินเป็นสามระยะ คือ thyrotoxic แล้วเข้าสู่ hypothyroid ก่อนกลับสู่ปกติ", "reasons": {"An autonomously functioning toxic nodule": "Toxic nodule จะมี uptake สูงเฉพาะจุดและต่อมไม่เจ็บ", "Excess iodine driving new hormone synthesis": "Jod-Basedow ต้องมีประวัติได้รับไอโอดีนปริมาณมากและต่อมไม่เจ็บ", "Secretion of TSH from a pituitary adenoma": "TSH-secreting adenoma จะมี TSH สูงหรือปกติทั้งที่ free T4 สูง ไม่ใช่ TSH ถูกกด", "Stimulation of the TSH receptor by autoantibody": "Graves disease มี uptake สูงแบบกระจายและมักมีตาโปน"}, "src": "สร้างใหม่ (อ้างขอบเขต T12-14)", "ref": ""}, {"no": 29, "t": "T15", "topic": "Treatment of pituitary gland diseases", "level": "ทฤษฎี", "orig": true, "stem": "", "lead": "Which drug is a dopamine D2 receptor agonist that can be used to treat hyperprolactinemia?", "opts": ["Octreotide", "Cabergoline", "Pegvisomant", "Desmopressin", "Somatropin"], "correct": "Cabergoline", "exp": "**Cabergoline** เป็น dopamine D2 agonist ที่ออกฤทธิ์นาน ยับยั้งการหลั่ง prolactin จาก lactotroph ของต่อมใต้สมองส่วนหน้า เนื่องจาก dopamine เป็นตัวยับยั้ง prolactin ตามธรรมชาติ (prolactin-inhibiting factor) การให้ยากลุ่ม agonist จึงเลียนแบบกลไกนี้ ผลคือทั้งลดระดับ prolactin และลดขนาดก้อนเนื้องอก จึงเป็นการรักษาลำดับแรกของ prolactinoma แม้ในรายที่เป็น macroadenoma", "reasons": {"Octreotide": "Octreotide เป็น somatostatin analogue ใช้รักษา acromegaly", "Pegvisomant": "Pegvisomant เป็น GH receptor antagonist ใช้รักษา acromegaly", "Desmopressin": "Desmopressin เป็น V2 agonist ใช้รักษา central diabetes insipidus", "Somatropin": "Somatropin คือ recombinant GH ใช้ทดแทนในภาวะขาด GH"}, "src": "ข้อสอบต้นฉบับ - Formative T15 โดย อ.ดร.ภญ.อารยา ศุภวัฒน์", "ref": ""}, {"no": 30, "t": "T15", "topic": "Desmopressin in central diabetes insipidus", "level": "ประยุกต์", "orig": false, "stem": "A 29-year-old man has central diabetes insipidus after resection of a craniopharyngioma. He is started on intranasal desmopressin rather than native arginine vasopressin, and his urine output normalizes without any change in blood pressure.", "lead": "Which property of desmopressin best explains this choice?", "opts": ["It is a V2 receptor antagonist", "It blocks aquaporin-2 insertion", "It stimulates the hypothalamic thirst centre", "It is a selective V2 agonist of long duration", "It is a selective V1 receptor agonist"], "correct": "It is a selective V2 agonist of long duration", "exp": "Desmopressin (DDAVP) เป็นอนุพันธ์สังเคราะห์ของ vasopressin ที่ดัดแปลงสองตำแหน่ง คือ deamination ที่ตำแหน่ง 1 ทำให้ทนต่อการย่อยและออกฤทธิ์นานขึ้น และเปลี่ยนเป็น D-arginine ที่ตำแหน่ง 8 ทำให้ **เลือกจับ V2 receptor ที่ไตอย่างจำเพาะ** เพิ่ม cAMP และการสอด aquaporin-2 เพื่อดูดน้ำกลับ โดยแทบไม่กระตุ้น V1 ที่กล้ามเนื้อเรียบหลอดเลือด จึงไม่ทำให้ความดันสูงหรือปวดท้องเกร็งเหมือน vasopressin ธรรมชาติ ภาวะแทรกซ้อนสำคัญที่ต้องเฝ้าระวังคือ hyponatraemia จากน้ำเกิน", "reasons": {"It is a V2 receptor antagonist": "V2 antagonist คือกลุ่ม vaptan ที่ใช้ใน SIADH ซึ่งให้ผลตรงข้าม", "It blocks aquaporin-2 insertion": "Desmopressin เพิ่ม ไม่ใช่ลด การสอด aquaporin-2", "It stimulates the hypothalamic thirst centre": "ยานี้ไม่ได้ออกฤทธิ์ที่ศูนย์กระหายน้ำ", "It is a selective V1 receptor agonist": "หากจำเพาะต่อ V1 จะทำให้หลอดเลือดหดตัวและไม่แก้ปัสสาวะมาก"}, "src": "สร้างใหม่ (อ้างขอบเขต T15)", "ref": ""}, {"no": 31, "t": "T16", "topic": "Follicular neoplasm of the thyroid", "level": "ทฤษฎี", "orig": false, "stem": "", "lead": "Which feature is required to distinguish follicular carcinoma from follicular adenoma of the thyroid gland?", "opts": ["Psammoma bodies", "Amyloid-rich stroma", "Nuclear grooves and pseudoinclusions", "Capsular or vascular invasion", "Lymphocytic infiltrate with germinal centres"], "correct": "Capsular or vascular invasion", "exp": "Follicular adenoma และ follicular carcinoma มีลักษณะ **เซลล์เหมือนกันทุกประการ** จึงแยกจากกันไม่ได้ด้วยการเจาะดูดเซลล์ (FNA) เกณฑ์เดียวที่ใช้วินิจฉัยมะเร็งคือ **การรุกล้ำผ่านแคปซูลของก้อนหรือรุกเข้าหลอดเลือด** ซึ่งต้องตรวจโครงสร้างทั้งก้อนหลังผ่าตัด นี่คือเหตุผลที่ผล FNA รายงานว่า follicular neoplasm (Bethesda IV) จึงต้องผ่าตัดเพื่อวินิจฉัย และเป็นเหตุผลที่มะเร็งชนิดนี้กระจายทางกระแสเลือดไปกระดูกและปอด", "reasons": {"Psammoma bodies": "Psammoma bodies เป็นลักษณะของ papillary carcinoma", "Amyloid-rich stroma": "Amyloid stroma เป็นลักษณะของ medullary carcinoma ซึ่งมาจาก C cell", "Nuclear grooves and pseudoinclusions": "Nuclear grooves และ pseudoinclusion เป็นลักษณะนิวเคลียสของ papillary carcinoma", "Lymphocytic infiltrate with germinal centres": "Lymphocytic infiltrate พร้อม germinal centre เป็นลักษณะของ Hashimoto thyroiditis"}, "src": "สร้างใหม่ (หัวข้อ T16 ไม่มีไฟล์ formative)", "ref": ""}, {"no": 32, "t": "T16", "topic": "Anaplastic thyroid carcinoma", "level": "ประยุกต์", "orig": false, "stem": "A 76-year-old woman notices a neck mass that has enlarged rapidly over 5 weeks. She now has hoarseness, stridor and difficulty swallowing. Examination shows a hard, fixed mass involving both lobes of the thyroid. Biopsy shows sheets of highly pleomorphic giant and spindle cells with numerous atypical mitoses and extensive necrosis; immunostaining for thyroglobulin and calcitonin is negative.", "lead": "Which is the most likely diagnosis?", "opts": ["Anaplastic carcinoma", "Medullary carcinoma", "Papillary carcinoma", "Primary thyroid lymphoma", "Riedel thyroiditis"], "correct": "Anaplastic carcinoma", "exp": "Anaplastic thyroid carcinoma พบในผู้สูงอายุ โตเร็วมากภายในไม่กี่สัปดาห์ ลุกลามอวัยวะข้างเคียงจนเกิดเสียงแหบ หายใจลำบากและกลืนลำบาก จุลพยาธิวิทยาพบเซลล์ pleomorphic giant และ spindle cell ที่สูญเสียการแบ่งตัวจำเพาะจนย้อม thyroglobulin ไม่ติด มักเกิดจากการ dedifferentiate ของมะเร็งที่แยกชนิดได้เดิม พบการกลายพันธุ์ TP53 และ TERT promoter เป็นมะเร็งที่มีการพยากรณ์โรคเลวที่สุดในบรรดามะเร็งไทรอยด์ (จัดเป็น stage IV ทุกราย) การรักษาสำคัญเร่งด่วนคือการดูแลทางเดินหายใจ", "reasons": {"Medullary carcinoma": "Medullary carcinoma ย้อม calcitonin ติดและมี amyloid stroma", "Papillary carcinoma": "Papillary carcinoma โตช้าและมีลักษณะนิวเคลียสจำเพาะ", "Primary thyroid lymphoma": "Thyroid lymphoma เป็นการวินิจฉัยแยกโรคที่สำคัญ (มักเกิดบนพื้นฐาน Hashimoto) แต่จะย้อม lymphoid marker ติด และเซลล์เป็นแบบ monomorphic ไม่ใช่ giant/spindle cell", "Riedel thyroiditis": "Riedel thyroiditis เป็นพังผืดแทนที่เนื้อต่อม ไม่มีเซลล์มะเร็ง pleomorphic"}, "src": "สร้างใหม่ (อ้างขอบเขต T16-17)", "ref": ""}, {"no": 33, "t": "T17", "topic": "Primary hyperparathyroidism versus FHH", "level": "ประยุกต์", "orig": false, "stem": "A 58-year-old woman is found to have serum calcium 11.8 mg/dL, phosphate 2.1 mg/dL, albumin 4.1 g/dL and intact PTH 96 pg/mL (normal 15-65). Renal function is normal. A 24-hour urine collection shows a calcium excretion of 340 mg/day with a calcium-to-creatinine clearance ratio of 0.028. She has had two episodes of renal colic.", "lead": "Which is the most likely diagnosis?", "opts": ["Milk-alkali syndrome", "Parathyroid adenoma", "Sarcoidosis with granulomatous disease", "Familial hypocalciuric hypercalcaemia", "Vitamin D intoxication"], "correct": "Parathyroid adenoma", "exp": "ภาพ **แคลเซียมสูง ฟอสเฟตต่ำ และ PTH สูงอย่างไม่เหมาะสม** คือ primary hyperparathyroidism ซึ่งร้อยละ 80-85 เกิดจาก parathyroid adenoma เดี่ยว PTH เพิ่มการดูดกลับแคลเซียมที่ท่อไตส่วนปลาย ยับยั้งการดูดกลับฟอสเฟตที่ท่อไตส่วนต้น และเพิ่ม calcitriol แต่ปริมาณแคลเซียมที่กรองผ่านมากขึ้นจนล้น ทำให้แคลเซียมในปัสสาวะ **สูง** และเกิดนิ่วไต จุดแยกที่สำคัญที่สุดคือ calcium-to-creatinine clearance ratio ที่มากกว่า 0.02 ซึ่งตัดภาวะ FHH ออกไป", "reasons": {"Milk-alkali syndrome": "Milk-alkali syndrome มี PTH ถูกกดและมักมี metabolic alkalosis กับไตเสื่อม", "Sarcoidosis with granulomatous disease": "Sarcoidosis สร้าง calcitriol จาก macrophage จึงกด PTH เช่นกัน", "Familial hypocalciuric hypercalcaemia": "FHH มีการกลายพันธุ์ CaSR แบบสูญเสียหน้าที่ ทำให้ไตดูดแคลเซียมกลับมากผิดปกติ จึงมี **แคลเซียมในปัสสาวะต่ำ** (ratio น้อยกว่า 0.01) และไม่มีนิ่ว", "Vitamin D intoxication": "Vitamin D intoxication กด PTH และมักมีฟอสเฟตสูง"}, "src": "สร้างใหม่ (อ้างขอบเขต T16-17)", "ref": ""}, {"no": 34, "t": "T17", "topic": "Pseudohypoparathyroidism", "level": "ประยุกต์", "orig": false, "stem": "A 12-year-old girl has short stature, a round face, obesity and conspicuously short fourth and fifth metacarpals. Laboratory studies show calcium 6.9 mg/dL, phosphate 6.4 mg/dL, magnesium normal, 25-hydroxyvitamin D normal, and intact PTH 310 pg/mL (normal 15-65). After infusion of exogenous PTH, urinary cyclic AMP and phosphate excretion fail to rise. Her mother has the same skeletal features but normal serum calcium.", "lead": "Which mechanism best explains these findings?", "opts": ["Autoimmune destruction of the parathyroid glands", "Congenital agenesis of the parathyroid glands", "Severe magnesium depletion impairing PTH secretion", "End-organ PTH resistance from a Gs-alpha defect", "Dietary vitamin D deficiency with secondary hyperparathyroidism"], "correct": "End-organ PTH resistance from a Gs-alpha defect", "exp": "Pseudohypoparathyroidism type 1A เกิดจากการกลายพันธุ์แบบสูญเสียหน้าที่ของยีน GNAS ที่เข้ารหัส Gs-alpha ทำให้ตัวรับ PTH ที่ไตไม่สามารถกระตุ้น adenylyl cyclase ได้ ผลคือ **แคลเซียมต่ำ ฟอสเฟตสูง ทั้งที่ PTH สูงมาก** และการทดสอบด้วยการให้ PTH (Ellsworth-Howard test) ไม่ทำให้ urinary cAMP เพิ่มขึ้น ซึ่งพิสูจน์ว่าเป็นการดื้อที่อวัยวะเป้าหมาย ไม่ใช่การขาดฮอร์โมน ลักษณะภายนอกที่เรียกว่า Albright hereditary osteodystrophy ได้แก่ ตัวเตี้ย หน้ากลม อ้วน และกระดูกฝ่ามือชิ้นที่ 4-5 สั้น ส่วนมารดาที่มีรูปร่างแบบเดียวกันแต่แคลเซียมปกติเข้าได้กับ pseudopseudohypoparathyroidism ตามกลไก genomic imprinting", "reasons": {"Autoimmune destruction of the parathyroid glands": "Autoimmune hypoparathyroidism จะมี PTH ต่ำ", "Congenital agenesis of the parathyroid glands": "Parathyroid agenesis (เช่น DiGeorge) จะมี PTH ต่ำเช่นกัน", "Severe magnesium depletion impairing PTH secretion": "โจทย์ระบุว่าแมกนีเซียมปกติ และภาวะนั้นจะมี PTH ต่ำหรือปกติ", "Dietary vitamin D deficiency with secondary hyperparathyroidism": "การขาดวิตามินดีจะมี 25(OH)D ต่ำและ **ฟอสเฟตต่ำ** ไม่ใช่สูง"}, "src": "สร้างใหม่ (อ้างขอบเขต T16-17)", "ref": ""}];
+const STAGES    = [{"name": "พื้นฐานเคมีของฮอร์โมน", "node": "Hypothalamus", "ts": ["T1", "T2"]}, {"name": "กายวิภาคและการเจริญของต่อม", "node": "Pituitary", "ts": ["T3", "T4", "T5", "T6"]}, {"name": "สรีรวิทยาของฮอร์โมน", "node": "Target gland", "ts": ["T7", "T8", "T9", "T10", "T11"]}, {"name": "พยาธิสรีรวิทยา", "node": "Disease", "ts": ["T12", "T13", "T14", "T16", "T17"]}, {"name": "เภสัชวิทยาต่อมใต้สมอง", "node": "Treatment", "ts": ["T15"]}];
+const BADGES    = ["รู้จักฮอร์โมน", "นักเดินแผนที่ต่อม", "อ่านวงจรป้อนกลับออก", "วินิจฉัยไทรอยด์ได้", "สั่งยาต่อมใต้สมองเป็น"];
+const LEVELS = [[0,"Intern"],[80,"Resident"],[180,"Chief Resident"],[300,"Fellow"],[420,"Endocrinologist"]];
+
+/* ---- group questions into stages: theory first, then applied ---- */
+STAGES.forEach((s,i)=>{
+  const pool = QUESTIONS.filter(q=>s.ts.includes(q.t));
+  const key = q => (q.level==="ทฤษฎี"?0:1)*1000 + parseInt(q.t.slice(1))*10 + q.no%10;
+  s.qs = pool.sort((a,b)=>key(a)-key(b));
+  s.idx = i;
+});
+
+const S = { stage:0, i:0, xp:0, streak:0, best:0, done:new Set(),
+            wrongIds:[], answered:{}, mode:"stage", queue:[], t0:0, timer:null, hinted:false,
+            name:"", sid:"", started:Date.now() };
+
+const $ = id => document.getElementById(id);
+const esc = t => t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const rich = t => esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+function rank(){ let r=LEVELS[0][1]; LEVELS.forEach(l=>{ if(S.xp>=l[0]) r=l[1]; }); return r; }
+function syncChips(){
+  $("xpChip").textContent = S.xp + " XP";
+  $("stChip").textContent = "ต่อเนื่อง " + S.streak;
+  const total = QUESTIONS.length, ans = Object.keys(S.answered).length;
+  $("pbar").style.width = (ans/total*100) + "%";
+}
+
+/* ---------------- home ---------------- */
+function drawHome(){
+  $("axis").innerHTML = STAGES.map((s,i)=>{
+    const open = i===0 || S.done.has(i-1);
+    const got  = s.qs.filter(q=>S.answered[q.no]==="right").length;
+    const cls  = S.done.has(i) ? "done" : (open ? "" : "locked");
+    return `<div class="node ${cls}"><span class="dot"></span>
+      <div class="gland">${esc(s.node)}</div>
+      <h3>${esc(s.name)}</h3>
+      <div class="meta">${s.ts.join(" · ")} — ${s.qs.length} ข้อ</div>
+      ${S.done.has(i) ? `<div class="score">ตอบถูก ${got} จาก ${s.qs.length} ข้อ</div>` : ""}
+      ${open ? `<button class="go" data-s="${i}">${S.done.has(i)?"เล่นซ้ำ":"เริ่มสเตจนี้"}</button>`
+             : `<div class="meta">ปลดล็อกเมื่อจบสเตจก่อนหน้า</div>`}
+    </div>`;
+  }).join("");
+  $("axis").querySelectorAll(".go").forEach(b=>b.onclick=()=>startStage(+b.dataset.s));
+  const nextOpen = STAGES.findIndex((s,i)=> !S.done.has(i) && (i===0||S.done.has(i-1)));
+  $("startBtn").textContent = nextOpen<0 ? "เล่นสเตจแรกอีกครั้ง" : (Object.keys(S.answered).length? "เล่นสเตจถัดไป":"เริ่มสเตจแรก");
+  $("startBtn").onclick = ()=> startStage(nextOpen<0?0:nextOpen);
+  $("wrongBtn").classList.toggle("hidden", S.wrongIds.length===0);
+  $("wrongBtn").textContent = "ทบทวนเฉพาะข้อที่ตอบผิด (" + S.wrongIds.length + " ข้อ)";
+  $("wrongBtn").onclick = startWrong;
+  $("idBox").classList.toggle("hidden", !ENDPOINT || !!S.name);
+  $("boardBtn").classList.toggle("hidden", !ENDPOINT);
+  $("boardBtn").onclick = loadBoard;
+  if(ENDPOINT){ $("diceBtn").onclick = ()=>{ $("nameIn").value = randomAlias(); }; }
+  show("home");
+}
+function show(id){ ["home","quiz","result","board"].forEach(x=>$(x).classList.toggle("hidden",x!==id)); window.scrollTo(0,0); }
+
+/* ---------------- leaderboard ---------------- */
+const ALIAS_A=["หมี","กระต่าย","นกฮูก","เสือ","ปลาวาฬ","แมวส้ม","พะยูน","ช้างน้อย","เต่าทอง","หมาป่า"];
+const ALIAS_B=["ไทรอยด์","คอร์ติซอล","อินซูลิน","แคลเซียม","พิทูอิทารี","อะดรีนัล","เมลาโทนิน","กลูคากอน"];
+function randomAlias(){
+  return ALIAS_A[Math.floor(Math.random()*ALIAS_A.length)]+" "+
+         ALIAS_B[Math.floor(Math.random()*ALIAS_B.length)]+" "+
+         (Math.floor(Math.random()*89)+10);
+}
+function readId(){ S.name = ($("nameIn").value||"").trim().slice(0,24); return true; }
+function submitScore(){
+  if(!ENDPOINT || !S.name) return;
+  const right = QUESTIONS.filter(q=>S.answered[q.no]==="right").length;
+  const payload = { quest:QUEST, name:S.name, xp:S.xp,
+    right:right, total:QUESTIONS.length, answered:Object.keys(S.answered).length,
+    streak:S.best, stages:S.done.size, minutes:Math.round((Date.now()-S.started)/60000) };
+  try{
+    fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)});
+  }catch(e){}
+}
+function loadBoard(){
+  show("board");
+  $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">กำลังโหลดคะแนน…</p></div>`;
+  const cb = "cb"+Date.now();
+  window[cb] = rows => { drawBoard(rows); delete window[cb]; };
+  const sc = document.createElement("script");
+  sc.src = ENDPOINT + (ENDPOINT.includes("?")?"&":"?") + "quest=" + encodeURIComponent(QUEST) + "&callback=" + cb;
+  sc.onerror = () => { $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">โหลดคะแนนไม่สำเร็จ ตรวจสอบลิงก์ Apps Script หรือลองใหม่อีกครั้ง</p></div>
+    <button class="cta ghost" onclick="drawHome()">กลับหน้าสเตจ</button>`; };
+  document.head.appendChild(sc);
+}
+function drawBoard(rows){
+  rows = rows || [];
+  const body = rows.length ? rows.map((r,i)=>
+    `<tr class="${r.name===S.name?"me":""}"><td class="n">${i+1}</td><td>${esc(r.name||"")}</td>
+     <td class="n">${r.xp}</td><td class="n">${r.right}/${r.total}</td><td class="n">${r.tries||1}</td></tr>`).join("")
+    : `<tr><td colspan="5">ยังไม่มีใครส่งคะแนน เป็นคนแรกได้เลย</td></tr>`;
+  $("board").innerHTML = `<div class="hero"><h1>กระดานผู้นำ</h1>
+    <p class="lead">${esc(QUEST)} · เรียงตาม XP สูงสุดของแต่ละคน</p></div>
+    <table><thead><tr><th>อันดับ</th><th>ชื่อ</th><th class="n">XP</th><th class="n">ตอบถูก</th><th class="n">เล่นแล้ว</th></tr></thead>
+    <tbody>${body}</tbody></table>
+    <button class="cta ghost" onclick="drawHome()" style="margin-top:20px">กลับหน้าสเตจ</button>`;
+}
+
+function startStage(i){
+  if(ENDPOINT) readId();
+  S.mode="stage"; S.stage=i; S.queue=STAGES[i].qs.slice(); S.i=0; render(); }
+function startWrong(){
+  S.mode="wrong";
+  S.queue = S.wrongIds.map(n=>QUESTIONS.find(q=>q.no===n));
+  S.wrongIds = []; S.i=0; render();
+}
+
+/* ---------------- question ---------------- */
+function render(){
+  show("quiz");
+  const q = S.queue[S.i];
+  S.hinted=false; S.t0=Date.now();
+  clearInterval(S.timer);
+  S.timer=setInterval(()=>{ const s=Math.floor((Date.now()-S.t0)/1000);
+    $("clock").textContent = Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); },500);
+  $("clock").textContent="0:00";
+
+  const isBoss = S.mode==="stage" && S.i===S.queue.length-1;
+  $("qhead").innerHTML =
+    `<span class="tag t">${q.t}</span>`+
+    `<span class="tag lv">${q.level}</span>`+
+    (q.orig?`<span class="tag src">ข้อของอาจารย์ผู้สอน</span>`:"")+
+    (isBoss?`<span class="tag boss">ข้อปิดสเตจ</span>`:"")+
+    `<span class="qtopic">ข้อ ${S.i+1} จาก ${S.queue.length} — ${esc(q.topic)}</span>`;
+
+  $("stem").textContent = q.stem || "";
+  $("stem").classList.toggle("hidden", !q.stem);
+  $("lead").textContent = q.lead;
+
+  const opts = shuffle(q.opts);
+  $("opts").innerHTML = opts.map((o,i)=>
+    `<button class="opt" data-o="${esc(o)}"><span class="k">${"ABCDE"[i]}</span><span>${esc(o)}</span></button>`).join("");
+  $("opts").querySelectorAll(".opt").forEach(b=> b.onclick=()=>answer(b,q));
+
+  $("reveal").innerHTML="";
+  $("nextBtn").classList.add("hidden");
+  $("hintBtn").disabled=false;
+  $("hintBtn").onclick=()=>useHint(q);
+  $("quitBtn").onclick=()=>drawHome();
+  syncChips();
+}
+
+function useHint(q){
+  S.hinted=true; S.xp=Math.max(0,S.xp-3); $("hintBtn").disabled=true;
+  const wrongBtns=[...$("opts").querySelectorAll(".opt")].filter(b=>b.dataset.o!==q.correct);
+  shuffle(wrongBtns).slice(0,2).forEach(b=>{ b.classList.add("dim"); b.disabled=true; });
+  syncChips();
+}
+
+function answer(btn,q){
+  clearInterval(S.timer);
+  const secs=(Date.now()-S.t0)/1000;
+  const right = btn.dataset.o===q.correct;
+  const first = !(q.no in S.answered);
+
+  let gained=0, notes=[];
+  if(right){
+    S.streak++; S.best=Math.max(S.best,S.streak);
+    if(first){ gained+=10; notes.push("ตอบถูก +10"); }
+    if(S.streak%3===0){ gained+=5; notes.push("ตอบถูกต่อเนื่อง 3 ข้อ +5"); }
+    if(secs<=45 && !S.hinted){ gained+=2; notes.push("ตอบเร็วภายใน 45 วินาที +2"); }
+  } else {
+    S.streak=0;
+    if(!S.wrongIds.includes(q.no)) S.wrongIds.push(q.no);
+  }
+  S.xp+=gained;
+  S.answered[q.no]= right ? "right" : "wrong";
+
+  $("opts").querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.o===q.correct) b.classList.add("right");
+    else if(b===btn) b.classList.add("chosenwrong");
+  });
+  $("hintBtn").disabled=true;
+
+  const others = q.opts.filter(o=>o!==q.correct)
+    .map(o=>`<div><b>${esc(o)}</b> — ${rich(q.reasons[o]||"")}</div>`).join("");
+
+  $("reveal").innerHTML =
+    `<p class="verdict ${right?"ok":"no"}">${right?"ถูกต้อง":"ยังไม่ใช่"} ` +
+    `<span class="xp">${gained?("+"+gained+" XP · "+notes.join(" · ")):(right?"เคยตอบข้อนี้แล้ว ไม่ได้ XP เพิ่ม":"ไม่ได้ XP")}</span></p>`+
+    `<h4>คำตอบที่ถูกต้อง</h4><p>${esc(q.correct)}</p>`+
+    `<h4>คำอธิบาย</h4><p>${rich(q.exp)}</p>`+
+    `<div class="why"><h4>ทำไมตัวเลือกอื่นไม่ถูก</h4>${others}</div>`+
+    `<p class="cite">${esc(q.src)}${q.ref?" · อ้างอิง: "+esc(q.ref):""}</p>`;
+
+  $("nextBtn").classList.remove("hidden");
+  $("nextBtn").textContent = (S.i===S.queue.length-1) ? "ดูสรุปผล" : "ข้อถัดไป";
+  $("nextBtn").onclick=()=>{ S.i++; if(S.i<S.queue.length) render(); else finish(); };
+  syncChips();
+  $("nextBtn").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+/* ---------------- results ---------------- */
+function finish(){
+  clearInterval(S.timer);
+  if(S.mode==="stage") S.done.add(S.stage);
+  const set = S.queue;
+  const right = set.filter(q=>S.answered[q.no]==="right").length;
+
+  const byT={};
+  QUESTIONS.forEach(q=>{ if(q.no in S.answered){
+    byT[q.t]=byT[q.t]||{r:0,n:0}; byT[q.t].n++; if(S.answered[q.no]==="right") byT[q.t].r++; }});
+  const rows=Object.keys(byT).sort((a,b)=>+a.slice(1)-+b.slice(1)).map(t=>{
+    const d=byT[t], weak=d.r<d.n;
+    return `<tr><td>${t}</td><td class="n">${d.r}/${d.n}</td>
+      <td>${weak?'<span class="weak">ควรทบทวน</span>':'ผ่าน'}</td></tr>`;}).join("");
+
+  const earned = STAGES.map((s,i)=> S.done.has(i));
+  const badges = BADGES.map((b,i)=>
+    `<span class="badge ${earned[i]?"":"off"}">${esc(b)}</span>`).join("")+
+    (Object.keys(S.answered).length===QUESTIONS.length && S.wrongIds.length===0
+      ? `<span class="badge">ผ่านครบทุกหัวข้อ</span>` : "");
+
+  const stageName = S.mode==="stage" ? STAGES[S.stage].name : "ทบทวนข้อที่ตอบผิด";
+  $("result").innerHTML =
+    `<div class="hero"><p class="kicker">${esc(stageName)}</p>
+      <p class="big">${right}<span style="font-size:24px;color:var(--mute)"> / ${set.length}</span></p>
+      <p class="rank">${S.xp} XP · ระดับ ${rank()} · ตอบถูกต่อเนื่องสูงสุด ${S.best} ข้อ</p></div>
+     <div class="badgegrid">${badges}</div>
+     <h3 style="margin:22px 0 0;font-size:19px">ความแม่นยำรายหัวข้อ</h3>
+     <table><thead><tr><th>หัวข้อ</th><th class="n">ตอบถูก</th><th>สถานะ</th></tr></thead><tbody>${rows}</tbody></table>
+     ${(ENDPOINT&&S.name)?'<p class="sendnote">ส่งคะแนนขึ้นกระดานผู้นำแล้วในชื่อ '+esc(S.name)+'</p>':''}
+     <button class="cta" id="r1">กลับหน้าสเตจ</button>
+     ${ENDPOINT?'<button class="cta ghost" id="r3">ดูกระดานผู้นำ</button>':''}
+     ${S.wrongIds.length?'<button class="cta ghost" id="r2">ทบทวนเฉพาะข้อที่ตอบผิด ('+S.wrongIds.length+' ข้อ)</button>':''}`;
+  show("result");
+  submitScore();
+  $("r1").onclick=drawHome;
+  if($("r2")) $("r2").onclick=startWrong;
+  if($("r3")) $("r3").onclick=loadBoard;
+  syncChips();
+}
+
+drawHome();
+</script>
+</body>
+</html>
